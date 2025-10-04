@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Guru - Geometri Kelas 5</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🎓 Geometri Kelas 5 - Panel Guru</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-guru.html" class="active">Dashboard</a></li>
+                <li><a href="materi.html">Materi</a></li>
+                <li><a href="#" id="logoutBtn">Keluar</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="teacherName">Guru</span>
+                <div class="user-avatar">👩‍🏫</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1>Selamat Datang, <span id="guruName">Ibu/Bapak Guru</span>! 👋</h1>
+                <p class="welcome-text">Monitor perkembangan siswa dan kelola pembelajaran dengan mudah.</p>
+            </section>
+
+            <!-- Overall Stats -->
+            <section class="stats-grid">
+                <div class="stat-card card-purple">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-info">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Siswa</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-blue">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3 id="activeStudents">0</h3>
+                        <p>Siswa Aktif Hari Ini</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-green">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <h3 id="avgScore">0</h3>
+                        <p>Skor Rata-rata Kelas</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-orange">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3 id="completionRate">0%</h3>
+                        <p>Tingkat Penyelesaian</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Grid -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-main">
+                    <!-- Student List -->
+                    <section class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">👨‍🎓 Daftar Siswa</h2>
+                            <input type="text" id="searchStudent" placeholder="🔍 Cari siswa..." class="search-input">
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="student-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Materi Selesai</th>
+                                        <th>Kuis Selesai</th>
+                                        <th>Skor Rata-rata</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentTableBody">
+                                    <!-- Dynamic content -->
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="loader">Memuat data siswa...</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Recent Activities -->
+                    <section class="card">
+                        <h2 class="card-title">📝 Aktivitas Terbaru</h2>
+                        <div class="activity-list" id="recentActivities">
+                            <!-- Dynamic content -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-sidebar">
+                    <!-- Performance Chart -->
+                    <section class="card">
+                        <h2 class="card-title">📈 Performa Kelas</h2>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="
+

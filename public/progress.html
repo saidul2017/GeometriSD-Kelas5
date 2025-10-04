@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Belajar - Geometri Kelas 5</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🎓 Geometri Kelas 5</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-siswa.html">Dashboard</a></li>
+                <li><a href="materi.html">Materi</a></li>
+                <li><a href="kuis.html">Kuis</a></li>
+                <li><a href="progress.html" class="active">Progress</a></li>
+                <li><a href="#" id="logoutBtn">Keluar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="progress-page">
+        <div class="container">
+            <h1 class="page-title">📊 Progress Belajarmu</h1>
+            <p class="page-subtitle">Lihat perkembangan belajarmu di sini!</p>
+
+            <!-- Overall Progress -->
+            <section class="card">
+                <h2 class="card-title">🎯 Progress Keseluruhan</h2>
+                <div class="overall-progress">
+                    <div class="progress-circle-container">
+                        <svg class="progress-ring" width="200" height="200">
+                            <circle class="progress-ring-circle-bg" cx="100" cy="100" r="90"></circle>
+                            <circle class="progress-ring-circle" cx="100" cy="100" r="90" id="overallProgressCircle"></circle>
+                        </svg>
+                        <div class="progress-percentage" id="overallPercentage">0%</div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="completedMaterials">0</div>
+                            <div class="stat-label">Materi Selesai</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalQuizzes">0</div>
+                            <div class="stat-label">Kuis Dikerjakan</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="averageScore">0</div>
+                            <div class="stat-label">Rata-rata Skor</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="studyStreak">0</div>
+                            <div class="stat-label">Hari Belajar Berturut</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Material Progress -->
+            <section class="card">
+                <h2 class="card-title">📚 Progress Materi</h2>
+                <div class="material-progress-list" id="materialProgressList">
+                    <!-- Dynamic content -->
+                    <div class="material-progress-item">
+                        <div class="material-info">
+                            <span class="material-icon">🔺</span>
+                            <span class="material-name">Segitiga</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                        <span class="material-status pending">Belum dimulai</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz History -->
+            <section class="card">
+                <h2 class="card-title">🎯 Riwayat Kuis</h2>
+                <div class="quiz-history" id="quizHistory">
+                    <div class="empty-state">
+                        <p>Belum ada kuis yang dikerjakan</p>
+                        <a href="kuis.html" class="btn btn-primary">Mulai Kuis Pertama</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievement Badges -->
+            <section class="card">
+                <h2 class="card-title">🏆 Pencapaian & Badge</h2>
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Badge 1 -->
+                    <div class="achievement-item locked">
+                        <div class="achievement-badge">🥉</div>
+                        <h4>Pemula</h4>
+                        <p>Selesaikan 1 materi</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Badge 2 -->
+                    <div class="achievement-item locked">
+                        <div class="achievement-badge">🥈</div>
+                        <h4>Pelajar Rajin</h4>
+                        <p>Selesaikan 5 materi</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Badge 3 -->
+                    <div class="achievement-item locked">
+                        <div class="achievement-badge">🥇</div>
+                        <h4>Master Geometri</h4>
+                        <p>Selesaikan semua materi</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+

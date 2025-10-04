@@ -1,0 +1,28 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'guru'",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "progress": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'guru'",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "quizzes": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'guru'",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "activity": {
+      "$uid": {
+        ".read": "$uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'guru'",
+        ".write": "$uid === auth.uid"
+      }
+    }
+  }
+}

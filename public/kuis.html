@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Latihan - Geometri Kelas 5</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🎓 Geometri Kelas 5</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-siswa.html">Dashboard</a></li>
+                <li><a href="materi.html">Materi</a></li>
+                <li><a href="kuis.html" class="active">Kuis</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="#" id="logoutBtn">Keluar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="kuis-page">
+        <div class="container">
+            <!-- Quiz Selection -->
+            <div id="quizSelection" class="quiz-selection">
+                <h1 class="page-title">🎯 Pilih Kuis</h1>
+                <p class="page-subtitle">Uji pemahamanmu tentang geometri!</p>
+
+                <div class="quiz-grid">
+                    <!-- Segitiga Quiz -->
+                    <div class="quiz-card" data-quiz="segitiga">
+                        <div class="quiz-icon">🔺</div>
+                        <h3>Kuis Segitiga</h3>
+                        <p class="quiz-desc">10 soal tentang jenis dan sifat segitiga</p>
+                        <div class="quiz-info">
+                            <span>⏱️ 15 menit</span>
+                            <span>📊 10 soal</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="startQuiz('segitiga')">Mulai Kuis</button>
+                        <div class="quiz-score" id="score-segitiga">
+                            <span class="score-label">Skor Terbaik:</span>
+                            <span class="score-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Persegi Quiz -->
+                    <div class="quiz-card" data-quiz="persegi">
+                        <div class="quiz-icon">🟥</div>
+                        <h3>Kuis Persegi</h3>
+                        <p class="quiz-desc">10 soal tentang persegi dan rumusnya</p>
+                        <div class="quiz-info">
+                            <span>⏱️ 15 menit</span>
+                            <span>📊 10 soal</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="startQuiz('persegi')">Mulai Kuis</button>
+                        <div class="quiz-score" id="score-persegi">
+                            <span class="score-label">Skor Terbaik:</span>
+                            <span class="score-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Lingkaran Quiz -->
+                    <div class="quiz-card" data-quiz="lingkaran">
+                        <div class="quiz-icon">🔵</div>
+                        <h3>Kuis Lingkaran</h3>
+                        <p class="quiz-desc">10 soal tentang keliling dan luas lingkaran</p>
+                        <div class="quiz-info">
+                            <span>⏱️ 15 menit</span>
+                            <span>📊 10 soal</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="startQuiz('lingkaran')">Mulai Kuis</button>
+                        <div class="quiz-score" id="score-lingkaran">
+                            <span class="score-label">Skor Terbaik:</span>
+                            <span class="score-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Kubus Quiz -->
+                    <div class="quiz-card" data-quiz="kubus">
+                        <div class="quiz-icon">🎲</div>
+                        <h3>Kuis Kubus</h3>
+                        <p class="quiz-desc">10 soal tentang kubus dan volume</p>
+                        <div class="quiz-info">
+                            <span>⏱️ 15 menit</span>
+                            <span>📊 10 soal</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="startQuiz('kubus')">Mulai Kuis</button>
+                        <div class="quiz-score" id="score-kubus">
+                            <span class="score-label">Skor Terbaik:</span>
+                            <span class="score-value">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Container (Hidden initially) -->
+            <div id="quizContainer" class="quiz-container" style="display: none;">
+                <!-- Quiz Header -->
+                <div class="quiz-header">
+                    <h2 id="quizTitle">Kuis Geomet
+

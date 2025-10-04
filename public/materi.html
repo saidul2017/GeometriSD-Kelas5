@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Pembelajaran - Geometri Kelas 5</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🎓 Geometri Kelas 5</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-siswa.html">Dashboard</a></li>
+                <li><a href="materi.html" class="active">Materi</a></li>
+                <li><a href="kuis.html">Kuis</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="#" id="logoutBtn">Keluar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="materi-page">
+        <div class="container">
+            <h1 class="page-title">📚 Materi Pembelajaran Geometri</h1>
+            <p class="page-subtitle">Pilih topik yang ingin kamu pelajari!</p>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="bangun-datar">🟦 Bangun Datar</button>
+                <button class="tab-btn" data-category="bangun-ruang">📦 Bangun Ruang</button>
+            </div>
+
+            <!-- Bangun Datar Section -->
+            <div id="bangun-datar" class="category-content active">
+                <div class="materi-grid">
+                    <!-- Segitiga -->
+                    <div class="materi-card" data-topic="segitiga">
+                        <div class="materi-icon">🔺</div>
+                        <h3>Segitiga</h3>
+                        <p>Pelajari jenis-jenis segitiga dan sifat-sifatnya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('segitiga')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Persegi -->
+                    <div class="materi-card" data-topic="persegi">
+                        <div class="materi-icon">🟥</div>
+                        <h3>Persegi</h3>
+                        <p>Memahami sifat dan rumus persegi</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('persegi')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Persegi Panjang -->
+                    <div class="materi-card" data-topic="persegi-panjang">
+                        <div class="materi-icon">📏</div>
+                        <h3>Persegi Panjang</h3>
+                        <p>Belajar tentang persegi panjang dan rumusnya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('persegi-panjang')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Lingkaran -->
+                    <div class="materi-card" data-topic="lingkaran">
+                        <div class="materi-icon">🔵</div>
+                        <h3>Lingkaran</h3>
+                        <p>Mengenal lingkaran, keliling, dan luasnya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('lingkaran')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Jajar Genjang -->
+                    <div class="materi-card" data-topic="jajar-genjang">
+                        <div class="materi-icon">🔷</div>
+                        <h3>Jajar Genjang</h3>
+                        <p>Memahami sifat jajar genjang</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('jajar-genjang')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Trapesium -->
+                    <div class="materi-card" data-topic="trapesium">
+                        <div class="materi-icon">🔶</div>
+                        <h3>Trapesium</h3>
+                        <p>Belajar tentang trapesium dan jenisnya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('trapesium')">Mulai Belajar →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bangun Ruang Section -->
+            <div id="bangun-ruang" class="category-content">
+                <div class="materi-grid">
+                    <!-- Kubus -->
+                    <div class="materi-card" data-topic="kubus">
+                        <div class="materi-icon">🎲</div>
+                        <h3>Kubus</h3>
+                        <p>Mengenal kubus dan sifat-sifatnya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('kubus')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Balok -->
+                    <div class="materi-card" data-topic="balok">
+                        <div class="materi-icon">📦</div>
+                        <h3>Balok</h3>
+                        <p>Memahami balok dan volume balok</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('balok')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Tabung -->
+                    <div class="materi-card" data-topic="tabung">
+                        <div class="materi-icon">🥫</div>
+                        <h3>Tabung</h3>
+                        <p>Belajar tabung dan cara menghitung volumenya</p>
+                        <div class="materi-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="0"></div>
+                            </div>
+                            <span class="progress-text">0% selesai</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openMateri('tabung')">Mulai Belajar →</button>
+                    </div>
+
+                    <!-- Limas -->
+                    <div class="materi-card" data-topic="limas">
+                        <div class="materi-icon
+

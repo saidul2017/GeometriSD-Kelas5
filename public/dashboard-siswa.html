@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Siswa - Geometri Kelas 5</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🎓 Geometri Kelas 5</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-siswa.html" class="active">Dashboard</a></li>
+                <li><a href="materi.html">Materi</a></li>
+                <li><a href="kuis.html">Kuis</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="#" id="logoutBtn">Keluar</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="userName">Loading...</span>
+                <div class="user-avatar">👨‍🎓</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1>Halo, <span id="studentName">Siswa</span>! 👋</h1>
+                <p class="welcome-text">Selamat datang kembali! Yuk lanjutkan belajarmu hari ini.</p>
+            </section>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card card-purple">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-info">
+                        <h3 id="completedLessons">0</h3>
+                        <p>Materi Selesai</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-blue">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <h3 id="quizScore">0</h3>
+                        <p>Skor Rata-rata</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-green">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3 id="completedQuizzes">0</h3>
+                        <p>Kuis Diselesaikan</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-orange">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <h3 id="badges">0</h3>
+                        <p>Badge Didapat</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Grid -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-main">
+                    <!-- Continue Learning -->
+                    <section class="card">
+                        <h2 class="card-title">📖 Lanjutkan Belajar</h2>
+                        <div id="continueSection">
+                            <div class="lesson-card">
+                                <div class="lesson-icon">🔺</div>
+                                <div class="lesson-info">
+                                    <h3>Segitiga</h3>
+                                    <p>Pelajari jenis-jenis segitiga dan sifatnya</p>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">60% selesai</span>
+                                </div>
+                                <a href="materi.html?topic=segitiga" class="btn btn-small">Lanjut →</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Recent Quizzes -->
+                    <section class="card">
+                        <h2 class="card-title">🎯 Kuis Terbaru</h2>
+                        <div id="recentQuizzes" class="quiz-list">
+                            <!-- Dynamic content will load here -->
+                            <div class="empty-state">
+                                <p>Belum ada kuis yang diselesaikan</p>
+                                <a href="kuis.html" class="btn btn-primary">Mulai Kuis</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-sidebar">
+                    <!-- Achievement Badges -->
+                    <section class="card">
+                        <h2 class="card-title">🏆 Badge Prestasi</h2>
+                        <div class="badges-grid" id="badgesGrid">
+                            <div class="badge badge-locked">🔒</div>
+                            <div class="badge badge-locked">🔒</div>
+                            <div class="badge badge-locked">🔒</div>
+                            <div class="badge badge-locked">🔒</div>
+                        </div>
+                        <p class="badge-hint">Selesaikan materi untuk mendapatkan badge!</p>
+                    </section>
+
+                    <!-- Learning Streak -->
+                    <section class="card">
+                        <h2 class="card-title">🔥 Streak Belajar</h2>
+                        <div class="streak-display">
+                            <div class="streak-number" id="streakDays">0</div>
+                            <p>hari berturut-turut</p>
+                        </div>
+                        <div class="streak-calendar" id="streakCalendar">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                    </section>
+
+                    <!-- Quick Links -->
+                    <section class="card">
+                        <h2 class="card-title">🚀 Aksi Cepat</h2>
+                        <div class="quick-links">
+                            <a href="materi.html" class="quick-link">
+                                <span>📚</span> Lihat Semua Materi
+                            </a>
+                            <a href="kuis.html" class="quick-link">
+                                <span>🎯</span> Mulai Kuis Baru
+                            </a>
+                            <a href="progress.html" class="quick-link">
+                                <span>📊</span> Lihat Progress Detail
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Geometri SD Kelas 5 🌟</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/progress.js"></script>
+</body>
+</html>
