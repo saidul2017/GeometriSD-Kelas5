@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Geometri SD</title>
+    <link rel="stylesheet" href="css/modern-style.css">
+    <style>
+        .badge-item {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-item.unlocked {
+            cursor: pointer;
+        }
+
+        .badge-item.unlocked:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .badge-item.locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+
+        .badge-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+
+        .badge-item.unlocked:hover .badge-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .badge-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+            animation: glow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="dashboard-siswa.html" class="btn-modern btn-primary" style="position: fixed; top: 20px; left: 20px; z-index: 100; background: white; color: var(--color-primary); box-shadow: var(--shadow-lg);">
+        ← Kembali
+    </a>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+        <!-- Header -->
+        <div style="text-align: center; padding: 80px 20px 60px; background: var(--gradient-warning); color: white; border-radius: var(--radius-xl); margin-bottom: 40px; position: relative; overflow: hidden;">
+            <div class="badge-glow"></div>
+            <h1 style="font-family: 'Fredoka', sans-serif; font-size: 56px; margin-bottom: 16px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); position: relative; z-index: 1;">
+                🏆 Achievements
+            </h1>
+            <p style="font-size: 20px; opacity: 0.95; position: relative; z-index: 1;">Kumpulkan semua badge dan jadi Master Geometri!</p>
+        </div>
+
+        <!-- Stats -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 50px;">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--gradient-warning);">🏆</div>
+                <div class="stat-content">
+                    <h3 id="totalBadges">2/15</h3>
+                    <p>Badge Terkumpul</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--gradient-success);">⭐</div>
+                <div class="stat-content">
+                    <h3 id="totalPoints">250</h3>
+                    <p>Total Poin</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--gradient-primary);">🎖️</div>
+                <div class="stat-content">
+                    <h3 id="rank">Pemula</h3>
+                    <p>Rank Saat Ini</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--gradient-info);">📈</div>
+                <div class="stat-content">
+                    <h3>13.3%</h3>
+                    <p>Progress Badge</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unlocked Badges -->
+        <div style="margin-bottom: 50px;">
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 36px; margin-bottom: 30px; color: #2d3748; text-align: center;">
+                ✨ Badge yang Kamu Miliki
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px;">
+                <!-- Badge 1 - Unlocked -->
+                <div class="badge-item unlocked" onclick="showBadgeDetail('first-login')">
+                    <div class="badge-glow"></div>
+                    <div class="badge-icon icon-bounce">🎓</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Siswa Baru</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Login pertama kali</p>
+                    <span class="badge-modern" style="background: var(--gradient-success); font-size: 12px;">✅ Terbuka</span>
+                    <p style="color: var(--color-success); font-size: 12px; margin-top: 8px; font-weight: 600;">+50 poin</p>
+                </div>
+
+                <!-- Badge 2 - Unlocked -->
+                <div class="badge-item unlocked" onclick="showBadgeDetail('segitiga-master')">
+                    <div class="badge-glow"></div>
+                    <div class="badge-icon icon-rotate">🔺</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Segitiga Master</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Selesaikan materi Segitiga dengan skor 80+</p>
+                    <span class="badge-modern" style="background: var(--gradient-success); font-size: 12px;">✅ Terbuka</span>
+                    <p style="color: var(--color-success); font-size: 12px; margin-top: 8px; font-weight: 600;">+100 poin</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Locked Badges -->
+        <div style="margin-bottom: 50px;">
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 36px; margin-bottom: 30px; color: #2d3748; text-align: center;">
+                🔒 Badge yang Terkunci
+            </h2>
+            <p style="text-align: center; color: #718096; margin-bottom: 40px; font-size: 16px;">Selesaikan tantangan untuk membuka badge ini!</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px;">
+                <!-- Badge 3 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">🟦</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Persegi Expert</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Selesaikan materi Persegi dengan skor 90+</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+150 poin</p>
+                </div>
+
+                <!-- Badge 4 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">⭕</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Lingkaran Pro</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Selesaikan materi Lingkaran dengan skor 85+</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+150 poin</p>
+                </div>
+
+                <!-- Badge 5 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">🏆</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Perfect Score</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Dapatkan skor 100 di kuis manapun</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+200 poin</p>
+                </div>
+
+                <!-- Badge 6 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">🔥</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Streak Master</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Belajar 7 hari berturut-turut</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+250 poin</p>
+                </div>
+
+                <!-- Badge 7 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">👑</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Geometry King</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Selesaikan semua materi dengan skor 90+</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+500 poin</p>
+                </div>
+
+                <!-- Badge 8 - Locked -->
+                <div class="badge-item locked">
+                    <div class="badge-icon">⚡</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 20px; margin-bottom: 8px; color: #2d3748;">Speed Learner</h3>
+                    <p style="color: #718096; font-size: 14px; margin-bottom: 12px;">Selesaikan kuis dalam waktu < 5 menit</p>
+                    <span class="badge-modern" style="background: #e2e8f0; color: #718096; font-size: 12px;">🔒 Terkunci</span>
+                    <p style="color: #718096; font-size: 12px; margin-top: 8px;">+180 poin</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Rank -->
+        <div class="gradient-card" style="padding: 50px 30px; background: var(--gradient-primary); color: white; text-align: center;">
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 20px;">🎖️ Rank Selanjutnya</h3>
+            <p style="font-size: 18px; opacity: 0.95; margin-bottom: 30px;">Kumpulkan 500 poin untuk naik ke rank "Mahir"!</p>
+            <div class="progress-bar-modern" style="max-width: 600px; margin: 0 auto 20px; height: 20px;">
+                <div class="progress-fill" style="width: 50%; background: white;"></div>
+            </div>
+            <p style="font-size: 16px; opacity: 0.9;">250/500 poin (50%)</p>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    
+    <script>
+        console.log('Achievements page loaded!');
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            console.log('User authenticated:', user.uid);
+        });
+
+        function showBadgeDetail(badgeId) {
+            alert(`🏆 Badge Detail: ${badgeId}\n\nKamu berhasil mendapatkan badge ini!\nTerus kumpulkan badge lainnya!`);
+        }
+    </script>
+</body>
+</html>

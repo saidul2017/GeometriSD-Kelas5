@@ -1,0 +1,14 @@
+{
+  "users": {
+    "EupYLWdKs4fhVBvSL7psyCda81X2": {
+      "email": "siswa@demo.com",
+      "name": "Budi Siswa",
+      "role": "siswa"
+    },
+    "IZHsvZGPrvUaunr2XZxAfcoyFHc2": {
+      "email": "guru@demo.com",
+      "name": "Ibu Ratna",
+      "role": "guru"
+    }
+  }
+}
