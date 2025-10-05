@@ -1,24 +1,138 @@
 <!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Siswa - Geometri SD</title>
+    <title>Dashboard Siswa - Geometri SD Kelas 5</title>
     <link rel="stylesheet" href="css/modern-style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/confetti.css">
+    <style>
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: var(--radius-xl);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .quick-action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 30px 0;
+        }
+
+        .achievement-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .achievement-badge {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-badge:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .achievement-badge.locked {
+            opacity: 0.4;
+            filter: grayscale(100%);
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-left: 3px solid #e2e8f0;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            border-left-color: var(--color-primary);
+            background: #f7fafc;
+        }
+
+        .activity-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: var(--gradient-primary);
+        }
+    </style>
 </head>
 <body>
-    <!-- Welcome Header with Gradient -->
-    <div class="glass-container" style="max-width: 1200px; margin: 40px auto;">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h1 style="font-family: 'Fredoka', sans-serif; font-size: 48px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">
-                <span class="icon-bounce">👋</span> Halo, <span id="userName">Siswa</span>!
-            </h1>
-            <p style="font-size: 18px; color: #718096;">Ayo belajar geometri dengan seru hari ini!</p>
+    <div style="max-width: 1400px; margin: 0 auto; padding: 20px; padding-top: 100px;">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div style="position: relative; z-index: 1;">
+                <h1 style="font-family: 'Fredoka', sans-serif; font-size: 48px; margin-bottom: 12px;">
+                    Selamat Datang, <span id="userName">Siswa</span>! 👋
+                </h1>
+                <p style="font-size: 20px; opacity: 0.95; margin-bottom: 30px;">
+                    Ayo lanjutkan belajar geometri hari ini!
+                </p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 16px 24px; border-radius: var(--radius-md); backdrop-filter: blur(10px);">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 4px;">Streak Belajar</div>
+                        <div style="font-size: 32px; font-weight: 700;">🔥 3 Hari</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 16px 24px; border-radius: var(--radius-md); backdrop-filter: blur(10px);">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 4px;">Total XP</div>
+                        <div style="font-size: 32px; font-weight: 700;">⭐ 450</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- Stats Overview -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px;">
-            <!-- Stat 1: Materi Selesai -->
+            <!-- Materi Selesai -->
             <div class="stat-card float-1">
                 <div class="stat-icon" style="background: var(--gradient-success);">
                     <span class="icon-pulse">📚</span>
@@ -29,10 +143,21 @@
                 </div>
             </div>
 
-            <!-- Stat 2: Skor Rata-rata -->
+            <!-- Kuis Dikerjakan -->
             <div class="stat-card float-2">
                 <div class="stat-icon" style="background: var(--gradient-warning);">
-                    <span class="icon-bounce">⭐</span>
+                    <span class="icon-bounce">🎯</span>
+                </div>
+                <div class="stat-content">
+                    <h3 id="kuisDikerjakan">0</h3>
+                    <p>Kuis Dikerjakan</p>
+                </div>
+            </div>
+
+            <!-- Skor Rata-rata -->
+            <div class="stat-card float-3">
+                <div class="stat-icon" style="background: var(--gradient-primary);">
+                    <span class="icon-rotate">⭐</span>
                 </div>
                 <div class="stat-content">
                     <h3 id="skorRata">0</h3>
@@ -40,10 +165,10 @@
                 </div>
             </div>
 
-            <!-- Stat 3: Badge Terkumpul -->
-            <div class="stat-card float-3">
+            <!-- Badge Terkumpul -->
+            <div class="stat-card float-1" style="animation-delay: 0.5s;">
                 <div class="stat-icon" style="background: var(--gradient-info);">
-                    <span class="icon-rotate">🏆</span>
+                    <span class="icon-pulse">🏆</span>
                 </div>
                 <div class="stat-content">
                     <h3 id="badgeCount">0</h3>
@@ -54,97 +179,344 @@
 
         <!-- Quick Actions -->
         <div style="margin-bottom: 40px;">
-            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 24px; color: #2d3748;">
-                🚀 Mulai Belajar
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 24px; color: #2d3748;">
+                ⚡ Menu Cepat
             </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-    <a href="materi.html" class="btn-modern btn-primary" style="justify-content: center;">
-        📖 Lihat Materi
-    </a>
-    <a href="kuis.html" class="btn-modern btn-success" style="justify-content: center;">
-        🎯 Kerjakan Kuis
-    </a>
-    <a href="progress.html" class="btn-modern btn-warning" style="justify-content: center;">
-        📊 Lihat Progress
-    </a>
-    <a href="achievements.html" class="btn-modern btn-info" style="justify-content: center;">
-        🏆 Achievements
-    </a>
-</div>
-                <a href="materi.html" class="btn-modern btn-primary" style="justify-content: center;">
+            
+            <div class="quick-action-grid">
+                <a href="materi.html" class="btn-modern btn-primary" style="justify-content: center; padding: 20px; font-size: 18px; text-decoration: none;">
                     📖 Lihat Materi
                 </a>
-                <a href="kuis.html" class="btn-modern btn-success" style="justify-content: center;">
+                <a href="kuis.html" class="btn-modern btn-success" style="justify-content: center; padding: 20px; font-size: 18px; text-decoration: none;">
                     🎯 Kerjakan Kuis
                 </a>
-                <a href="progress.html" class="btn-modern btn-warning" style="justify-content: center;">
+                <a href="progress.html" class="btn-modern btn-warning" style="justify-content: center; padding: 20px; font-size: 18px; text-decoration: none;">
                     📊 Lihat Progress
+                </a>
+                <a href="achievements.html" class="btn-modern btn-info" style="justify-content: center; padding: 20px; font-size: 18px; text-decoration: none;">
+                    🏆 Achievements
                 </a>
             </div>
         </div>
 
-        <!-- Materi Populer -->
-        <div>
+        <!-- Progress Overview -->
+        <div class="glass-container" style="margin-bottom: 40px;">
             <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 24px; color: #2d3748;">
-                🔥 Materi Populer
+                📊 Progress Belajar
             </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-                <!-- Card Segitiga -->
-                <div class="modern-card">
-                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-bounce">🔺</div>
-                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Segitiga</h3>
-                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Pelajari rumus luas & keliling segitiga</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 75%;"></div>
+            
+            <div style="margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                    <span style="font-weight: 600; color: #2d3748;">Progress Keseluruhan</span>
+                    <span style="color: #718096;" id="overallProgress">0%</span>
+                </div>
+                <div class="progress-bar-modern">
+                    <div class="progress-fill" id="overallProgressBar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div style="display: grid; gap: 16px;">
+                <!-- Segitiga Progress -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-weight: 600; color: #2d3748;">🔺 Segitiga</span>
+                        <span style="color: #718096;" id="segitigaProgress">0%</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="badge-modern" style="background: var(--gradient-success);">75% Selesai</span>
-                        <a href="materi.html?topik=segitiga" class="btn-modern btn-primary" style="padding: 8px 16px; font-size: 14px;">Lanjut →</a>
+                    <div class="progress-bar-modern">
+                        <div class="progress-fill" id="segitigaProgressBar" style="width: 0%;"></div>
                     </div>
                 </div>
 
-                <!-- Card Persegi -->
-                <div class="modern-card">
-                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-pulse">🟦</div>
-                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Persegi</h3>
-                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Belajar sifat & rumus persegi</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 50%; background: var(--gradient-warning);"></div>
+                <!-- Persegi Progress -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-weight: 600; color: #2d3748;">🟦 Persegi</span>
+                        <span style="color: #718096;" id="persegiProgress">0%</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="badge-modern" style="background: var(--gradient-warning);">50% Selesai</span>
-                        <a href="materi.html?topik=persegi" class="btn-modern btn-success" style="padding: 8px 16px; font-size: 14px;">Mulai →</a>
-                    </div>
-                </div>
-
-                <!-- Card Lingkaran -->
-                <div class="modern-card">
-                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-rotate">⭕</div>
-                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Lingkaran</h3>
-                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Pahami keliling & luas lingkaran</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 25%; background: var(--gradient-info);"></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="badge-modern" style="background: var(--gradient-info);">25% Selesai</span>
-                        <a href="materi.html?topik=lingkaran" class="btn-modern btn-warning" style="padding: 8px 16px; font-size: 14px;">Mulai →</a>
+                    <div class="progress-bar-modern">
+                        <div class="progress-fill" id="persegiProgressBar" style="width: 0%; background: var(--gradient-success);"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Logout Button -->
-        <div style="text-align: center; margin-top: 40px;">
-            <button id="logoutBtn" class="btn-modern" style="background: #e53e3e; color: white;">
-                🚪 Keluar
-            </button>
+        <!-- Recent Achievements -->
+        <div style="margin-bottom: 40px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; color: #2d3748;">
+                    🏆 Achievement Terbaru
+                </h2>
+                <a href="achievements.html" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">
+                    Lihat Semua →
+                </a>
+            </div>
+
+            <div class="achievement-preview">
+                <div class="achievement-badge">
+                    <div style="font-size: 48px; margin-bottom: 8px;">🎓</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Siswa Baru</div>
+                </div>
+                <div class="achievement-badge locked">
+                    <div style="font-size: 48px; margin-bottom: 8px;">🔺</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Segitiga Master</div>
+                </div>
+                <div class="achievement-badge locked">
+                    <div style="font-size: 48px; margin-bottom: 8px;">🟦</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Persegi Expert</div>
+                </div>
+                <div class="achievement-badge locked">
+                    <div style="font-size: 48px; margin-bottom: 8px;">⭐</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Perfect Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div>
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 24px; color: #2d3748;">
+                📅 Aktivitas Terakhir
+            </h2>
+
+            <div class="recent-activity" id="recentActivity">
+                <div class="activity-item">
+                    <div class="activity-icon">🎓</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-weight: 600; color: #2d3748; margin-bottom: 4px;">Selamat Datang!</h4>
+                        <p style="color: #718096; font-size: 14px;">Mulai belajar dengan materi Segitiga</p>
+                    </div>
+                    <span style="color: #a0aec0; font-size: 14px;">Baru saja</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="gradient-card" style="margin-top: 40px; text-align: center; padding: 50px 30px; background: var(--gradient-success); color: white;">
+            <div style="font-size: 60px; margin-bottom: 20px;" class="icon-bounce">💪</div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 16px;">
+                "Belajar Sedikit Setiap Hari, Raih Kesuksesan!"
+            </h3>
+            <p style="font-size: 18px; opacity: 0.95; margin-bottom: 30px;">
+                Tetap semangat dan jangan menyerah!
+            </p>
+            <a href="materi.html" class="btn-modern" style="background: white; color: var(--color-success); text-decoration: none;">
+                🚀 Mulai Belajar Sekarang
+            </a>
         </div>
     </div>
 
-    <!-- Firebase & Auth Scripts -->
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/confetti.js"></script>
+    
+    <script>
+        console.log('Dashboard Siswa loaded! 🎓');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation('dashboard');
+        });
+
+        // Check authentication and load data
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            console.log('User logged in:', user.uid);
+            
+            // Load user data
+            try {
+                const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+                const userData = snapshot.val();
+                
+                if (userData) {
+                    console.log('User data:', userData);
+                    const userNameEl = document.getElementById('userName');
+                    if (userNameEl) {
+                        userNameEl.textContent = userData.name || 'Siswa';
+                    }
+                    
+                    // Load real stats
+                    await loadRealStats(user.uid);
+                    
+                    // Load recent activity
+                    await loadRecentActivity(user.uid);
+                    
+                    // Show welcome notification
+                    showSuccess(`Selamat datang kembali, ${userData.name || 'Siswa'}! 🎉`);
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showError('Gagal memuat data pengguna!');
+            }
+        });
+
+        // Load real statistics
+        async function loadRealStats(userId) {
+            try {
+                let totalMateri = 0;
+                let totalKuis = 0;
+                let avgScore = 0;
+                let badgeCount = 0;
+                let segitigaCompleted = false;
+                let persegiCompleted = false;
+
+                // Load quiz results
+                const quizSnapshot = await firebase.database().ref('quiz-results/' + userId).once('value');
+                const quizResults = quizSnapshot.val();
+                
+                if (quizResults) {
+                    const resultsArray = Object.values(quizResults);
+                    totalKuis = resultsArray.length;
+                    avgScore = Math.round(resultsArray.reduce((sum, r) => sum + r.score, 0) / totalKuis);
+                    
+                    document.getElementById('skorRata').textContent = avgScore;
+                    document.getElementById('kuisDikerjakan').textContent = totalKuis;
+                }
+                
+                // Load materi progress
+                const materiSnapshot = await firebase.database().ref('progress/' + userId + '/materi').once('value');
+                const materiProgress = materiSnapshot.val();
+                
+                if (materiProgress) {
+                    const completedMateri = Object.values(materiProgress).filter(m => m.completed);
+                    totalMateri = completedMateri.length;
+                    badgeCount = totalMateri; // 1 badge per completed materi
+                    
+                    // Check specific progress
+                    if (materiProgress.segitiga?.completed) {
+                        segitigaCompleted = true;
+                        document.getElementById('segitigaProgressBar').style.width = '100%';
+                        document.getElementById('segitigaProgress').textContent = '100%';
+                    }
+                    
+                    if (materiProgress.persegi?.completed) {
+                        persegiCompleted = true;
+                        document.getElementById('persegiProgressBar').style.width = '100%';
+                        document.getElementById('persegiProgress').textContent = '100%';
+                    }
+                    
+                    document.getElementById('materiSelesai').textContent = totalMateri;
+                    document.getElementById('badgeCount').textContent = badgeCount;
+                }
+
+                // Calculate overall progress (2 materi available)
+                const overallPercent = Math.round((totalMateri / 2) * 100);
+                document.getElementById('overallProgressBar').style.width = overallPercent + '%';
+                document.getElementById('overallProgress').textContent = overallPercent + '%';
+                
+                console.log('Real stats loaded:', { totalMateri, totalKuis, avgScore, badgeCount });
+            } catch (error) {
+                console.error('Error loading real stats:', error);
+            }
+        }
+
+        // Load recent activity
+        async function loadRecentActivity(userId) {
+            try {
+                const activities = [];
+                
+                // Get quiz results
+                const quizSnapshot = await firebase.database().ref('quiz-results/' + userId)
+                    .orderByChild('timestamp')
+                    .limitToLast(3)
+                    .once('value');
+                    
+                if (quizSnapshot.val()) {
+                    Object.values(quizSnapshot.val()).forEach(result => {
+                        activities.push({
+                            type: 'quiz',
+                            data: result,
+                            timestamp: result.timestamp
+                        });
+                    });
+                }
+                
+                // Get materi progress
+                const materiSnapshot = await firebase.database().ref('progress/' + userId + '/materi').once('value');
+                if (materiSnapshot.val()) {
+                    Object.entries(materiSnapshot.val()).forEach(([key, value]) => {
+                        if (value.completed) {
+                            activities.push({
+                                type: 'materi',
+                                data: { topik: key, ...value },
+                                timestamp: value.completedAt
+                            });
+                        }
+                    });
+                }
+                
+                // Sort by timestamp
+                activities.sort((a, b) => b.timestamp - a.timestamp);
+                
+                // Display activities
+                if (activities.length > 0) {
+                    const activityContainer = document.getElementById('recentActivity');
+                    activityContainer.innerHTML = '';
+                    
+                    activities.slice(0, 5).forEach(activity => {
+                        const timeAgo = getTimeAgo(activity.timestamp);
+                        let html = '';
+                        
+                        if (activity.type === 'quiz') {
+                            const grade = activity.data.score >= 80 ? '🎉' : '👍';
+                            html = `
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--gradient-warning);">🎯</div>
+                                    <div style="flex: 1;">
+                                        <h4 style="font-weight: 600; color: #2d3748; margin-bottom: 4px;">
+                                            ${grade} Menyelesaikan Kuis ${activity.data.quizType}
+                                        </h4>
+                                        <p style="color: #718096; font-size: 14px;">
+                                            Skor: ${activity.data.score}/100 - ${activity.data.correct}/${activity.data.total} benar
+                                        </p>
+                                    </div>
+                                    <span style="color: #a0aec0; font-size: 14px;">${timeAgo}</span>
+                                </div>
+                            `;
+                        } else if (activity.type === 'materi') {
+                            html = `
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--gradient-success);">📚</div>
+                                    <div style="flex: 1;">
+                                        <h4 style="font-weight: 600; color: #2d3748; margin-bottom: 4px;">
+                                            ✅ Menyelesaikan Materi ${activity.data.topik}
+                                        </h4>
+                                        <p style="color: #718096; font-size: 14px;">
+                                            Materi berhasil diselesaikan
+                                        </p>
+                                    </div>
+                                    <span style="color: #a0aec0; font-size: 14px;">${timeAgo}</span>
+                                </div>
+                            `;
+                        }
+                        
+                        activityContainer.innerHTML += html;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading recent activity:', error);
+            }
+        }
+
+        // Helper function to get time ago
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'Baru saja';
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' menit lalu';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' jam lalu';
+            if (seconds < 604800) return Math.floor(seconds / 86400) + ' hari lalu';
+            
+            return new Date(timestamp).toLocaleDateString('id-ID');
+        }
+    </script>
 </body>
+</html>
