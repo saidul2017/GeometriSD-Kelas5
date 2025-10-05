@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Geometri SD Kelas 5</title>
     <link rel="stylesheet" href="css/modern-style.css">
+    <style>
+        input:focus {
+            outline: none;
+            border-color: var(--color-primary) !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .role-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-option input:checked + .modern-card {
+            background: var(--gradient-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
     <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
@@ -21,15 +39,19 @@
             <div style="margin-bottom: 30px;">
                 <label style="display: block; margin-bottom: 12px; font-weight: 600; color: #2d3748;">Masuk sebagai:</label>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                    <label class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                    <label class="role-option">
                         <input type="radio" name="role" value="siswa" checked style="display: none;">
-                        <div style="font-size: 32px; margin-bottom: 8px;">👨‍🎓</div>
-                        <div style="font-weight: 600;">Siswa</div>
+                        <div class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">👨‍🎓</div>
+                            <div style="font-weight: 600;">Siswa</div>
+                        </div>
                     </label>
-                    <label class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                    <label class="role-option">
                         <input type="radio" name="role" value="guru" style="display: none;">
-                        <div style="font-size: 32px; margin-bottom: 8px;">👩‍🏫</div>
-                        <div style="font-weight: 600;">Guru</div>
+                        <div class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">👩‍🏫</div>
+                            <div style="font-weight: 600;">Guru</div>
+                        </div>
                     </label>
                 </div>
             </div>
@@ -45,7 +67,7 @@
                         id="email" 
                         required
                         placeholder="contoh@email.com"
-                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s;">
+                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s; font-family: 'Poppins', sans-serif;">
                 </div>
 
                 <div style="margin-bottom: 20px;">
@@ -57,7 +79,7 @@
                         id="password" 
                         required
                         placeholder="••••••••"
-                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s;">
+                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s; font-family: 'Poppins', sans-serif;">
                 </div>
 
                 <div style="margin-bottom: 24px;">
@@ -67,11 +89,11 @@
                     </label>
                 </div>
 
-                <button type="submit" class="btn-modern btn-primary" style="width: 100%; justify-content: center; font-size: 18px; padding: 16px;">
+                <button type="submit" id="submitBtn" class="btn-modern btn-primary" style="width: 100%; justify-content: center; font-size: 18px; padding: 16px;">
                     Masuk
                 </button>
 
-                <div id="errorMsg" style="display: none; margin-top: 20px; padding: 16px; background: #fed7d7; color: #c53030; border-radius: var(--radius-md); text-align: center;">
+                <div id="errorMsg" style="display: none; margin-top: 20px; padding: 16px; background: #fed7d7; color: #c53030; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
                     Terjadi kesalahan, coba lagi!
                 </div>
             </form>
@@ -83,23 +105,121 @@
         </div>
     </div>
 
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
+    
+    <!-- Auth Script -->
+    <script>
+        console.log('Login page loaded! 🚀');
 
-    <style>
-        input:focus {
-            outline: none;
-            border-color: var(--color-primary) !important;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        // Check if user already logged in
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('User already logged in, checking role...');
+                checkUserRole(user.uid);
+            }
+        });
+
+        // Login Form Handler
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                console.log('Attempting login for:', email);
+                
+                // Show loading state
+                submitBtn.textContent = '⏳ Memproses...';
+                submitBtn.disabled = true;
+                errorMsg.style.display = 'none';
+                
+                try {
+                    // Firebase login
+                    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    console.log('✅ Login successful! UID:', user.uid);
+                    
+                    // Check user role from database
+                    const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+                    const userData = snapshot.val();
+                    
+                    console.log('User data from database:', userData);
+                    
+                    if (userData && userData.role) {
+                        console.log('User role:', userData.role);
+                        
+                        // Redirect based on role
+                        if (userData.role === 'siswa') {
+                            console.log('Redirecting to siswa dashboard...');
+                            window.location.href = 'dashboard-siswa.html';
+                        } else if (userData.role === 'guru') {
+                            console.log('Redirecting to guru dashboard...');
+                            window.location.href = 'dashboard-guru.html';
+                        } else {
+                            throw new Error('Role tidak valid');
+                        }
+                    } else {
+                        console.error('❌ User data not found in database!');
+                        throw new Error('Data user tidak ditemukan di database');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Login error:', error);
+                    errorMsg.textContent = getErrorMessage(error);
+                    errorMsg.style.display = 'block';
+                    submitBtn.textContent = 'Masuk';
+                    submitBtn.disabled = false;
+                }
+            });
         }
 
-        .modern-card:has(input:checked) {
-            background: var(--gradient-primary);
-            color: white;
-            transform: scale(1.05);
+        // Helper function to check user role
+        async function checkUserRole(uid) {
+            try {
+                const snapshot = await firebase.database().ref('users/' + uid).once('value');
+                const userData = snapshot.val();
+                
+                if (userData && userData.role) {
+                    if (userData.role === 'siswa') {
+                        window.location.href = 'dashboard-siswa.html';
+                    } else if (userData.role === 'guru') {
+                        window.location.href = 'dashboard-guru.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking role:', error);
+            }
         }
-    </style>
+
+        // Helper function for error messages
+        function getErrorMessage(error) {
+            const code = error.code || '';
+            const message = error.message || '';
+            
+            if (code === 'auth/invalid-email') return '❌ Email tidak valid!';
+            if (code === 'auth/user-disabled') return '❌ Akun ini dinonaktifkan!';
+            if (code === 'auth/user-not-found') return '❌ Email tidak terdaftar!';
+            if (code === 'auth/wrong-password') return '❌ Password salah!';
+            if (code === 'auth/invalid-credential') return '❌ Email atau password salah!';
+            if (code === 'auth/too-many-requests') return '❌ Terlalu banyak percobaan. Coba lagi nanti!';
+            if (code === 'auth/network-request-failed') return '❌ Koneksi internet bermasalah!';
+            
+            if (message.includes('tidak ditemukan')) return '❌ Data user tidak ditemukan. Hubungi admin!';
+            
+            return '❌ Login gagal! ' + message;
+        }
+
+        console.log('Login script initialized! ✅');
+    </script>
 </body>
+</html>
