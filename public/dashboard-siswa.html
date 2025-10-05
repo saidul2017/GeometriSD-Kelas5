@@ -1,172 +1,137 @@
 <!DOCTYPE html>
-<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Siswa - Geometri Kelas 5</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Dashboard Siswa - Geometri SD</title>
+    <link rel="stylesheet" href="css/modern-style.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">🎓 Geometri Kelas 5</div>
-            <ul class="nav-menu">
-                <li><a href="dashboard-siswa.html" class="active">Dashboard</a></li>
-                <li><a href="materi.html">Materi</a></li>
-                <li><a href="kuis.html">Kuis</a></li>
-                <li><a href="progress.html">Progress</a></li>
-                <li><a href="#" id="logoutBtn">Keluar</a></li>
-            </ul>
-            <div class="user-info">
-                <span id="userName">Loading...</span>
-                <div class="user-avatar">👨‍🎓</div>
-            </div>
+    <!-- Welcome Header with Gradient -->
+    <div class="glass-container" style="max-width: 1200px; margin: 40px auto;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="font-family: 'Fredoka', sans-serif; font-size: 48px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">
+                <span class="icon-bounce">👋</span> Halo, <span id="userName">Siswa</span>!
+            </h1>
+            <p style="font-size: 18px; color: #718096;">Ayo belajar geometri dengan seru hari ini!</p>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main class="dashboard">
-        <div class="container">
-            <!-- Welcome Section -->
-            <section class="welcome-section">
-                <h1>Halo, <span id="studentName">Siswa</span>! 👋</h1>
-                <p class="welcome-text">Selamat datang kembali! Yuk lanjutkan belajarmu hari ini.</p>
-            </section>
-
-            <!-- Stats Cards -->
-            <section class="stats-grid">
-                <div class="stat-card card-purple">
-                    <div class="stat-icon">📚</div>
-                    <div class="stat-info">
-                        <h3 id="completedLessons">0</h3>
-                        <p>Materi Selesai</p>
-                    </div>
+        <!-- Stats Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px;">
+            <!-- Stat 1: Materi Selesai -->
+            <div class="stat-card float-1">
+                <div class="stat-icon" style="background: var(--gradient-success);">
+                    <span class="icon-pulse">📚</span>
                 </div>
-
-                <div class="stat-card card-blue">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-info">
-                        <h3 id="quizScore">0</h3>
-                        <p>Skor Rata-rata</p>
-                    </div>
+                <div class="stat-content">
+                    <h3 id="materiSelesai">0</h3>
+                    <p>Materi Selesai</p>
                 </div>
+            </div>
 
-                <div class="stat-card card-green">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-info">
-                        <h3 id="completedQuizzes">0</h3>
-                        <p>Kuis Diselesaikan</p>
-                    </div>
+            <!-- Stat 2: Skor Rata-rata -->
+            <div class="stat-card float-2">
+                <div class="stat-icon" style="background: var(--gradient-warning);">
+                    <span class="icon-bounce">⭐</span>
                 </div>
-
-                <div class="stat-card card-orange">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-info">
-                        <h3 id="badges">0</h3>
-                        <p>Badge Didapat</p>
-                    </div>
+                <div class="stat-content">
+                    <h3 id="skorRata">0</h3>
+                    <p>Skor Rata-rata</p>
                 </div>
-            </section>
+            </div>
 
-            <!-- Main Grid -->
-            <div class="dashboard-grid">
-                <!-- Left Column -->
-                <div class="dashboard-main">
-                    <!-- Continue Learning -->
-                    <section class="card">
-                        <h2 class="card-title">📖 Lanjutkan Belajar</h2>
-                        <div id="continueSection">
-                            <div class="lesson-card">
-                                <div class="lesson-icon">🔺</div>
-                                <div class="lesson-info">
-                                    <h3>Segitiga</h3>
-                                    <p>Pelajari jenis-jenis segitiga dan sifatnya</p>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 60%"></div>
-                                    </div>
-                                    <span class="progress-text">60% selesai</span>
-                                </div>
-                                <a href="materi.html?topic=segitiga" class="btn btn-small">Lanjut →</a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Recent Quizzes -->
-                    <section class="card">
-                        <h2 class="card-title">🎯 Kuis Terbaru</h2>
-                        <div id="recentQuizzes" class="quiz-list">
-                            <!-- Dynamic content will load here -->
-                            <div class="empty-state">
-                                <p>Belum ada kuis yang diselesaikan</p>
-                                <a href="kuis.html" class="btn btn-primary">Mulai Kuis</a>
-                            </div>
-                        </div>
-                    </section>
+            <!-- Stat 3: Badge Terkumpul -->
+            <div class="stat-card float-3">
+                <div class="stat-icon" style="background: var(--gradient-info);">
+                    <span class="icon-rotate">🏆</span>
                 </div>
-
-                <!-- Right Column -->
-                <div class="dashboard-sidebar">
-                    <!-- Achievement Badges -->
-                    <section class="card">
-                        <h2 class="card-title">🏆 Badge Prestasi</h2>
-                        <div class="badges-grid" id="badgesGrid">
-                            <div class="badge badge-locked">🔒</div>
-                            <div class="badge badge-locked">🔒</div>
-                            <div class="badge badge-locked">🔒</div>
-                            <div class="badge badge-locked">🔒</div>
-                        </div>
-                        <p class="badge-hint">Selesaikan materi untuk mendapatkan badge!</p>
-                    </section>
-
-                    <!-- Learning Streak -->
-                    <section class="card">
-                        <h2 class="card-title">🔥 Streak Belajar</h2>
-                        <div class="streak-display">
-                            <div class="streak-number" id="streakDays">0</div>
-                            <p>hari berturut-turut</p>
-                        </div>
-                        <div class="streak-calendar" id="streakCalendar">
-                            <!-- Calendar will be generated here -->
-                        </div>
-                    </section>
-
-                    <!-- Quick Links -->
-                    <section class="card">
-                        <h2 class="card-title">🚀 Aksi Cepat</h2>
-                        <div class="quick-links">
-                            <a href="materi.html" class="quick-link">
-                                <span>📚</span> Lihat Semua Materi
-                            </a>
-                            <a href="kuis.html" class="quick-link">
-                                <span>🎯</span> Mulai Kuis Baru
-                            </a>
-                            <a href="progress.html" class="quick-link">
-                                <span>📊</span> Lihat Progress Detail
-                            </a>
-                        </div>
-                    </section>
+                <div class="stat-content">
+                    <h3 id="badgeCount">0</h3>
+                    <p>Badge Terkumpul</p>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>© 2025 Geometri SD Kelas 5 🌟</p>
+        <!-- Quick Actions -->
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 24px; color: #2d3748;">
+                🚀 Mulai Belajar
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                <a href="materi.html" class="btn-modern btn-primary" style="justify-content: center;">
+                    📖 Lihat Materi
+                </a>
+                <a href="kuis.html" class="btn-modern btn-success" style="justify-content: center;">
+                    🎯 Kerjakan Kuis
+                </a>
+                <a href="progress.html" class="btn-modern btn-warning" style="justify-content: center;">
+                    📊 Lihat Progress
+                </a>
+            </div>
         </div>
-    </footer>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    
-    <!-- Custom Scripts -->
+        <!-- Materi Populer -->
+        <div>
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 24px; color: #2d3748;">
+                🔥 Materi Populer
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                <!-- Card Segitiga -->
+                <div class="modern-card">
+                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-bounce">🔺</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Segitiga</h3>
+                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Pelajari rumus luas & keliling segitiga</p>
+                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="badge-modern" style="background: var(--gradient-success);">75% Selesai</span>
+                        <a href="materi.html?topik=segitiga" class="btn-modern btn-primary" style="padding: 8px 16px; font-size: 14px;">Lanjut →</a>
+                    </div>
+                </div>
+
+                <!-- Card Persegi -->
+                <div class="modern-card">
+                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-pulse">🟦</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Persegi</h3>
+                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Belajar sifat & rumus persegi</p>
+                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
+                        <div class="progress-fill" style="width: 50%; background: var(--gradient-warning);"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="badge-modern" style="background: var(--gradient-warning);">50% Selesai</span>
+                        <a href="materi.html?topik=persegi" class="btn-modern btn-success" style="padding: 8px 16px; font-size: 14px;">Mulai →</a>
+                    </div>
+                </div>
+
+                <!-- Card Lingkaran -->
+                <div class="modern-card">
+                    <div style="font-size: 64px; text-align: center; margin-bottom: 16px;" class="icon-rotate">⭕</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px;">Lingkaran</h3>
+                    <p style="text-align: center; color: #718096; margin-bottom: 16px;">Pahami keliling & luas lingkaran</p>
+                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
+                        <div class="progress-fill" style="width: 25%; background: var(--gradient-info);"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="badge-modern" style="background: var(--gradient-info);">25% Selesai</span>
+                        <a href="materi.html?topik=lingkaran" class="btn-modern btn-warning" style="padding: 8px 16px; font-size: 14px;">Mulai →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div style="text-align: center; margin-top: 40px;">
+            <button id="logoutBtn" class="btn-modern" style="background: #e53e3e; color: white;">
+                🚪 Keluar
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase & Auth Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/progress.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
-</html>
