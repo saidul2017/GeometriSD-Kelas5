@@ -264,8 +264,11 @@
         }
 
         // Navigate to materi detail
+                // Navigate to materi detail
         function goToMateri(topik) {
             console.log('Navigating to:', topik);
+            window.location.href = `materi-detail.html?topik=${topik}`;
+        }
             alert(`🚀 Materi "${topik}" akan segera tersedia!\n\nFitur pembelajaran interaktif sedang dalam pengembangan.`);
             // TODO: Navigate to detail page
             // window.location.href = `materi-detail.html?topik=${topik}`;
