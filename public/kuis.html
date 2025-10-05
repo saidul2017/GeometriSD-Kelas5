@@ -196,8 +196,11 @@
         });
 
         // Start quiz
+                // Start quiz
         function startQuiz(topik) {
             console.log('Starting quiz:', topik);
+            window.location.href = `quiz-play.html?topik=${topik}`;
+        }
             alert(`🎯 Kuis "${topik}" akan segera tersedia!\n\nSistem kuis interaktif sedang dalam pengembangan.`);
             // TODO: Navigate to quiz page
             // window.location.href = `kuis-detail.html?topik=${topik}`;
