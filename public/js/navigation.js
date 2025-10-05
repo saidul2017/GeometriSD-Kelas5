@@ -7,7 +7,7 @@ function createNavigation(currentPage = 'dashboard') {
     const navHTML = `
         <nav class="main-nav">
             <div class="nav-container">
-                <div class="nav-brand">
+                <div class="nav-brand" onclick="window.location.href='dashboard-siswa.html'" style="cursor: pointer;">
                     <span class="nav-logo">📐</span>
                     <span class="nav-title">Geometri SD</span>
                 </div>
@@ -51,11 +51,11 @@ function createNavigation(currentPage = 'dashboard') {
                             </div>
                         </div>
                         <div class="user-menu-divider"></div>
-                        <a href="#profile" class="user-menu-item">
+                        <a href="profile.html" class="user-menu-item">
                             <span>👤</span> Profile
                         </a>
-                        <a href="#settings" class="user-menu-item">
-                            <span>⚙️</span> Pengaturan
+                        <a href="dashboard-siswa.html" class="user-menu-item">
+                            <span>🏠</span> Dashboard
                         </a>
                         <div class="user-menu-divider"></div>
                         <button class="user-menu-item logout-btn" id="navLogoutBtn">
