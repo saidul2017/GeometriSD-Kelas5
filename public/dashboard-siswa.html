@@ -251,23 +251,8 @@
                 </a>
             </div>
 
-            <div class="achievement-preview">
-                <div class="achievement-badge">
-                    <div style="font-size: 48px; margin-bottom: 8px;">🎓</div>
-                    <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Siswa Baru</div>
-                </div>
-                <div class="achievement-badge locked">
-                    <div style="font-size: 48px; margin-bottom: 8px;">🔺</div>
-                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Segitiga Master</div>
-                </div>
-                <div class="achievement-badge locked">
-                    <div style="font-size: 48px; margin-bottom: 8px;">🟦</div>
-                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Persegi Expert</div>
-                </div>
-                <div class="achievement-badge locked">
-                    <div style="font-size: 48px; margin-bottom: 8px;">⭐</div>
-                    <div style="font-size: 14px; font-weight: 600; color: #718096;">Perfect Score</div>
-                </div>
+            <div class="achievement-preview" id="achievementPreview">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
 
@@ -315,7 +300,7 @@
     <script src="js/confetti.js"></script>
     
     <script>
-        console.log('Dashboard Siswa loaded! 🎓');
+        console.log('🎓 Dashboard Siswa loaded!');
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -329,7 +314,7 @@
                 return;
             }
             
-            console.log('User logged in:', user.uid);
+            console.log('✅ User logged in:', user.uid);
             
             // Load user data
             try {
@@ -337,84 +322,161 @@
                 const userData = snapshot.val();
                 
                 if (userData) {
-                    console.log('User data:', userData);
+                    console.log('👤 User data:', userData);
                     const userNameEl = document.getElementById('userName');
                     if (userNameEl) {
                         userNameEl.textContent = userData.name || 'Siswa';
                     }
                     
-                    // Load real stats
-                    await loadRealStats(user.uid);
+                    // Load REAL-TIME stats
+                    loadRealStats(user.uid);
                     
                     // Load recent activity
-                    await loadRecentActivity(user.uid);
+                    loadRecentActivity(user.uid);
+                    
+                    // Update achievements
+                    updateAchievements(user.uid);
+                    
+                    // Setup real-time achievement updates
+                    firebase.database().ref('progress/' + user.uid + '/materi').on('value', () => {
+                        updateAchievements(user.uid);
+                    });
                     
                     // Show welcome notification
                     showSuccess(`Selamat datang kembali, ${userData.name || 'Siswa'}! 🎉`);
                 }
             } catch (error) {
-                console.error('Error loading user data:', error);
+                console.error('❌ Error loading user data:', error);
                 showError('Gagal memuat data pengguna!');
             }
         });
 
-        // Load real statistics
-        async function loadRealStats(userId) {
+        // Load real statistics with REAL-TIME updates
+        function loadRealStats(userId) {
             try {
-                let totalMateri = 0;
-                let totalKuis = 0;
-                let avgScore = 0;
-                let badgeCount = 0;
-                let segitigaCompleted = false;
-                let persegiCompleted = false;
-
-                // Load quiz results
-                const quizSnapshot = await firebase.database().ref('quiz-results/' + userId).once('value');
-                const quizResults = quizSnapshot.val();
+                console.log('📊 Setting up REAL-TIME stats listeners...');
                 
-                if (quizResults) {
-                    const resultsArray = Object.values(quizResults);
-                    totalKuis = resultsArray.length;
-                    avgScore = Math.round(resultsArray.reduce((sum, r) => sum + r.score, 0) / totalKuis);
+                // REAL-TIME listener for quiz results
+                firebase.database().ref('quiz-results/' + userId).on('value', (quizSnapshot) => {
+                    const quizResults = quizSnapshot.val();
                     
-                    document.getElementById('skorRata').textContent = avgScore;
-                    document.getElementById('kuisDikerjakan').textContent = totalKuis;
-                }
+                    if (quizResults) {
+                        const resultsArray = Object.values(quizResults);
+                        const totalKuis = resultsArray.length;
+                        const avgScore = Math.round(resultsArray.reduce((sum, r) => sum + r.score, 0) / totalKuis);
+                        
+                        document.getElementById('skorRata').textContent = avgScore || 0;
+                        document.getElementById('kuisDikerjakan').textContent = totalKuis;
+                        
+                        console.log('📊 Quiz stats updated:', { totalKuis, avgScore });
+                    } else {
+                        document.getElementById('skorRata').textContent = 0;
+                        document.getElementById('kuisDikerjakan').textContent = 0;
+                    }
+                });
                 
-                // Load materi progress
+                // REAL-TIME listener for materi progress
+                firebase.database().ref('progress/' + userId + '/materi').on('value', (materiSnapshot) => {
+                    const materiProgress = materiSnapshot.val();
+                    
+                    console.log('📚 Materi Progress Updated:', materiProgress);
+                    
+                    if (materiProgress) {
+                        const completedMateri = Object.values(materiProgress).filter(m => m.completed);
+                        const totalMateri = completedMateri.length;
+                        const badgeCount = totalMateri; // 1 badge per completed materi
+                        
+                        // Check specific progress
+                        const segitigaCompleted = materiProgress.segitiga?.completed || false;
+                        const persegiCompleted = materiProgress.persegi?.completed || false;
+                        
+                        // Update Segitiga progress
+                        if (segitigaCompleted) {
+                            document.getElementById('segitigaProgressBar').style.width = '100%';
+                            document.getElementById('segitigaProgress').textContent = '100%';
+                        } else {
+                            document.getElementById('segitigaProgressBar').style.width = '0%';
+                            document.getElementById('segitigaProgress').textContent = '0%';
+                        }
+                        
+                        // Update Persegi progress
+                        if (persegiCompleted) {
+                            document.getElementById('persegiProgressBar').style.width = '100%';
+                            document.getElementById('persegiProgress').textContent = '100%';
+                        } else {
+                            document.getElementById('persegiProgressBar').style.width = '0%';
+                            document.getElementById('persegiProgress').textContent = '0%';
+                        }
+                        
+                        // Update stats
+                        document.getElementById('materiSelesai').textContent = totalMateri;
+                        document.getElementById('badgeCount').textContent = badgeCount;
+                        
+                        // Calculate overall progress (2 materi available)
+                        const overallPercent = Math.round((totalMateri / 2) * 100);
+                        document.getElementById('overallProgressBar').style.width = overallPercent + '%';
+                        document.getElementById('overallProgress').textContent = overallPercent + '%';
+                        
+                        console.log('✅ Stats updated:', { totalMateri, badgeCount, overallPercent });
+                    } else {
+                        // No progress yet
+                        document.getElementById('materiSelesai').textContent = 0;
+                        document.getElementById('badgeCount').textContent = 0;
+                        document.getElementById('overallProgressBar').style.width = '0%';
+                        document.getElementById('overallProgress').textContent = '0%';
+                        document.getElementById('segitigaProgressBar').style.width = '0%';
+                        document.getElementById('segitigaProgress').textContent = '0%';
+                        document.getElementById('persegiProgressBar').style.width = '0%';
+                        document.getElementById('persegiProgress').textContent = '0%';
+                        
+                        console.log('ℹ️ No materi completed yet');
+                    }
+                });
+                
+            } catch (error) {
+                console.error('❌ Error loading real stats:', error);
+                showError('Gagal memuat statistik: ' + error.message);
+            }
+        }
+
+        // Update achievement preview based on progress
+        async function updateAchievements(userId) {
+            const achievementContainer = document.getElementById('achievementPreview');
+            if (!achievementContainer) return;
+            
+            try {
                 const materiSnapshot = await firebase.database().ref('progress/' + userId + '/materi').once('value');
                 const materiProgress = materiSnapshot.val();
                 
-                if (materiProgress) {
-                    const completedMateri = Object.values(materiProgress).filter(m => m.completed);
-                    totalMateri = completedMateri.length;
-                    badgeCount = totalMateri; // 1 badge per completed materi
-                    
-                    // Check specific progress
-                    if (materiProgress.segitiga?.completed) {
-                        segitigaCompleted = true;
-                        document.getElementById('segitigaProgressBar').style.width = '100%';
-                        document.getElementById('segitigaProgress').textContent = '100%';
-                    }
-                    
-                    if (materiProgress.persegi?.completed) {
-                        persegiCompleted = true;
-                        document.getElementById('persegiProgressBar').style.width = '100%';
-                        document.getElementById('persegiProgress').textContent = '100%';
-                    }
-                    
-                    document.getElementById('materiSelesai').textContent = totalMateri;
-                    document.getElementById('badgeCount').textContent = badgeCount;
-                }
-
-                // Calculate overall progress (2 materi available)
-                const overallPercent = Math.round((totalMateri / 2) * 100);
-                document.getElementById('overallProgressBar').style.width = overallPercent + '%';
-                document.getElementById('overallProgress').textContent = overallPercent + '%';
+                const segitigaDone = materiProgress?.segitiga?.completed || false;
+                const persegiDone = materiProgress?.persegi?.completed || false;
                 
-                console.log('Real stats loaded:', { totalMateri, totalKuis, avgScore, badgeCount });
+                achievementContainer.innerHTML = `
+                    <div class="achievement-badge">
+                        <div style="font-size: 48px; margin-bottom: 8px;">🎓</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Siswa Baru</div>
+                    </div>
+                    <div class="achievement-badge ${segitigaDone ? '' : 'locked'}">
+                        <div style="font-size: 48px; margin-bottom: 8px;">🔺</div>
+                        <div style="font-size: 14px; font-weight: 600; color: ${segitigaDone ? '#2d3748' : '#718096'};">
+                            Segitiga Master
+                        </div>
+                    </div>
+                    <div class="achievement-badge ${persegiDone ? '' : 'locked'}">
+                        <div style="font-size: 48px; margin-bottom: 8px;">🟦</div>
+                        <div style="font-size: 14px; font-weight: 600; color: ${persegiDone ? '#2d3748' : '#718096'};">
+                            Persegi Expert
+                        </div>
+                    </div>
+                    <div class="achievement-badge locked">
+                        <div style="font-size: 48px; margin-bottom: 8px;">⭐</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #718096;">Perfect Score</div>
+                    </div>
+                `;
+                
+                console.log('🏆 Achievements updated:', { segitigaDone, persegiDone });
             } catch (error) {
-                console.error('Error loading real stats:', error);
+                console.error('Error updating achievements:', error);
             }
         }
 
