@@ -167,6 +167,9 @@
             .materi-sidebar {
                 position: static;
             }
+            .materi-content {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -229,6 +232,7 @@
         let currentUser = null;
         let currentMateri = null;
         let currentSectionIndex = 0;
+        let currentTopik = '';
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -236,6 +240,7 @@
             
             const urlParams = new URLSearchParams(window.location.search);
             const topik = urlParams.get('topik') || 'segitiga';
+            currentTopik = topik;
             
             firebase.auth().onAuthStateChanged((user) => {
                 if (!user) {
@@ -258,6 +263,8 @@
             document.getElementById('materiTitle').innerHTML = currentMateri.icon + ' ' + currentMateri.title;
             buildSectionNavigation();
             showSection(0);
+            
+            console.log('📚 Materi loaded:', topik, currentMateri.title);
         }
 
         function buildSectionNavigation() {
@@ -315,9 +322,7 @@
         }
 
         function getCalculatorHTML() {
-            const topik = Object.keys(materiData).find(key => materiData[key] === currentMateri);
-            
-            if (topik === 'segitiga') {
+            if (currentTopik === 'segitiga') {
                 return `
                     <div class="calculator-box">
                         <h3 style="font-size: 28px; margin-bottom: 24px;">🧮 Kalkulator Segitiga</h3>
@@ -339,7 +344,7 @@
                         </div>
                     </div>
                 `;
-            } else if (topik === 'persegi') {
+            } else if (currentTopik === 'persegi') {
                 return `
                     <div class="calculator-box">
                         <h3 style="font-size: 28px; margin-bottom: 24px;">🧮 Kalkulator Persegi</h3>
@@ -363,15 +368,15 @@
         }
 
         function initCalculator() {
-            // Calculator initialized when HTML is rendered
+            console.log('Calculator initialized for:', currentTopik);
         }
 
         function calculateSegitiga() {
             const alas = parseFloat(document.getElementById('alas').value);
             const tinggi = parseFloat(document.getElementById('tinggi').value);
             
-            if (!alas || !tinggi) {
-                showWarning('Mohon isi semua nilai!');
+            if (!alas || !tinggi || alas <= 0 || tinggi <= 0) {
+                showWarning('Mohon isi semua nilai dengan angka yang valid!');
                 return;
             }
             
@@ -389,8 +394,8 @@
         function calculatePersegi() {
             const sisi = parseFloat(document.getElementById('sisi').value);
             
-            if (!sisi) {
-                showWarning('Mohon isi nilai sisi!');
+            if (!sisi || sisi <= 0) {
+                showWarning('Mohon isi nilai sisi dengan angka yang valid!');
                 return;
             }
             
@@ -423,21 +428,53 @@
         }
 
         async function markAsComplete() {
+            if (!currentUser) {
+                showError('User tidak terautentikasi!');
+                return;
+            }
+            
+            if (!currentTopik) {
+                showError('Topik tidak valid!');
+                return;
+            }
+            
             try {
-                const topik = Object.keys(materiData).find(key => materiData[key] === currentMateri);
-                await firebase.database().ref(`progress/${currentUser.uid}/materi/${topik}`).set({
+                console.log('🔄 Saving completion for:', currentTopik, 'User:', currentUser.uid);
+                
+                const dataToSave = {
                     completed: true,
-                    completedAt: Date.now()
-                });
+                    completedAt: Date.now(),
+                    topik: currentTopik,
+                    title: currentMateri.title
+                };
                 
-                celebrateSuccess('Selamat! Kamu telah menyelesaikan materi ini! 🎉');
+                console.log('💾 Data to save:', dataToSave);
                 
+                // Save to database
+                await firebase.database()
+                    .ref(`progress/${currentUser.uid}/materi/${currentTopik}`)
+                    .set(dataToSave);
+                
+                console.log('✅ Successfully saved to database!');
+                
+                // Verify save
+                const verifySnapshot = await firebase.database()
+                    .ref(`progress/${currentUser.uid}/materi/${currentTopik}`)
+                    .once('value');
+                    
+                console.log('🔍 Verification - Data in DB:', verifySnapshot.val());
+                
+                // Show celebration
+                celebrateSuccess(`Selamat! Kamu telah menyelesaikan materi ${currentMateri.title}! 🎉`);
+                
+                // Redirect after 2.5 seconds
                 setTimeout(() => {
                     window.location.href = 'materi.html';
-                }, 2000);
+                }, 2500);
+                
             } catch (error) {
-                console.error('Error marking complete:', error);
-                showError('Gagal menyimpan progress!');
+                console.error('❌ Error saving completion:', error);
+                showError('Gagal menyimpan progress: ' + error.message);
             }
         }
     </script>
