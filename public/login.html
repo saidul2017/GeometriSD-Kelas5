@@ -3,86 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Geometri Kelas 5 SD</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <title>Login - Geometri SD Kelas 5</title>
+    <link rel="stylesheet" href="css/modern-style.css">
 </head>
-<body class="login-page">
-    <div class="login-container">
-        <div class="login-card slide-up">
-            <div class="login-header">
-                <h1>🎓 Selamat Datang!</h1>
-                <p>Silakan masuk untuk mulai belajar</p>
+<body>
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <div class="glass-container" style="max-width: 480px; width: 100%;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 80px; margin-bottom: 20px;" class="icon-bounce">🎓</div>
+                <h1 style="font-family: 'Fredoka', sans-serif; font-size: 36px; color: #2d3748; margin-bottom: 8px;">
+                    Selamat Datang!
+                </h1>
+                <p style="color: #718096; font-size: 16px;">Silakan masuk untuk mulai belajar</p>
             </div>
 
-            <form id="loginForm" class="login-form">
-                <!-- Role Selection -->
-                <div class="form-group">
-                    <label>Masuk sebagai:</label>
-                    <div class="role-selector">
-                        <input type="radio" id="roleSiswa" name="role" value="siswa" checked>
-                        <label for="roleSiswa" class="role-option">
-                            <span class="role-icon">👨‍🎓</span>
-                            <span>Siswa</span>
-                        </label>
+            <!-- Role Selection -->
+            <div style="margin-bottom: 30px;">
+                <label style="display: block; margin-bottom: 12px; font-weight: 600; color: #2d3748;">Masuk sebagai:</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <label class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                        <input type="radio" name="role" value="siswa" checked style="display: none;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">👨‍🎓</div>
+                        <div style="font-weight: 600;">Siswa</div>
+                    </label>
+                    <label class="modern-card" style="cursor: pointer; padding: 16px; text-align: center; margin: 0;">
+                        <input type="radio" name="role" value="guru" style="display: none;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">👩‍🏫</div>
+                        <div style="font-weight: 600;">Guru</div>
+                    </label>
+                </div>
+            </div>
 
-                        <input type="radio" id="roleGuru" name="role" value="guru">
-                        <label for="roleGuru" class="role-option">
-                            <span class="role-icon">👩‍🏫</span>
-                            <span>Guru</span>
-                        </label>
-                    </div>
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2d3748;">
+                        📧 Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        required
+                        placeholder="contoh@email.com"
+                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s;">
                 </div>
 
-                <!-- Email -->
-                <div class="form-group">
-                    <label for="email">📧 Email</label>
-                    <input type="email" id="email" placeholder="contoh@email.com" required>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2d3748;">
+                        🔒 Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        required
+                        placeholder="••••••••"
+                        style="width: 100%; padding: 14px 20px; border: 2px solid #e2e8f0; border-radius: var(--radius-md); font-size: 16px; transition: all 0.3s;">
                 </div>
 
-                <!-- Password -->
-                <div class="form-group">
-                    <label for="password">🔒 Password</label>
-                    <input type="password" id="password" placeholder="Masukkan password" required>
+                <div style="margin-bottom: 24px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="remember" style="width: 18px; height: 18px;">
+                        <span style="color: #718096;">Ingat saya</span>
+                    </label>
                 </div>
 
-                <!-- Remember Me -->
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Ingat saya</label>
-                </div>
-
-                <!-- Login Button -->
-                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
-                    <span id="loginText">Masuk</span>
-                    <span id="loginLoader" class="loader" style="display:none;">⏳</span>
+                <button type="submit" class="btn-modern btn-primary" style="width: 100%; justify-content: center; font-size: 18px; padding: 16px;">
+                    Masuk
                 </button>
 
-                <!-- Error Message -->
-                <div id="errorMessage" class="error-message" style="display:none;"></div>
+                <div id="errorMsg" style="display: none; margin-top: 20px; padding: 16px; background: #fed7d7; color: #c53030; border-radius: var(--radius-md); text-align: center;">
+                    Terjadi kesalahan, coba lagi!
+                </div>
             </form>
 
-            <div class="login-footer">
-                <p>Belum punya akun? <a href="#" id="registerLink">Daftar di sini</a></p>
-                <p><a href="index.html">← Kembali ke Beranda</a></p>
-            </div>
-
-            <!-- Demo Credentials -->
-            <div class="demo-credentials">
-                <h4>🔑 Demo Login:</h4>
-                <p><strong>Siswa:</strong> siswa@demo.com / password123</p>
-                <p><strong>Guru:</strong> guru@demo.com / password123</p>
+            <div style="text-align: center; margin-top: 30px; padding-top: 30px; border-top: 1px solid #e2e8f0;">
+                <p style="color: #718096; margin-bottom: 12px;">Belum punya akun?</p>
+                <a href="#" style="color: var(--color-primary); font-weight: 600; text-decoration: none;">Hubungi Admin →</a>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    
-    <!-- Custom Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
+
+    <style>
+        input:focus {
+            outline: none;
+            border-color: var(--color-primary) !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modern-card:has(input:checked) {
+            background: var(--gradient-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
 </body>
-</html>
