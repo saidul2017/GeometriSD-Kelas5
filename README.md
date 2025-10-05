@@ -1,3 +1,18 @@
+## 📱 Halaman yang Tersedia
+
+### Untuk Siswa:
+- ✅ **Dashboard** - Overview progress & quick actions
+- ✅ **Materi** - 10 topik geometri (Bangun Datar & Ruang)
+- ✅ **Kuis** - Test pemahaman dengan berbagai tingkat kesulitan
+- ✅ **Progress** - Timeline & statistik belajar
+- ✅ **Achievements** - Badge & reward system
+
+### Untuk Guru:
+- ✅ **Dashboard** - Monitoring siswa & analytics
+- ✅ **Daftar Siswa** - Detail progress setiap siswa
+- ✅ **Statistik Kelas** - Performance overview
+
+---
 \# 🎓 Website Pembelajaran Geometri Kelas 5 SD
 
 
