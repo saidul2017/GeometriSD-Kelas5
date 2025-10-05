@@ -1,66 +1,111 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>    
-    <link rel="stylesheet" href="css/navigation.css">
-    <link rel="stylesheet" href="css/loader.css">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Belajar - Geometri SD</title>
     <link rel="stylesheet" href="css/modern-style.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <style>
-        .progress-item {
+        .progress-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px;
+        }
+
+        .progress-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--radius-xl);
+            margin-bottom: 40px;
+        }
+
+        .overall-progress {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 40px;
+        }
+
+        .progress-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(var(--color-primary) 0deg, var(--color-primary) var(--progress-deg), #e2e8f0 var(--progress-deg));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .progress-circle::before {
+            content: '';
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .progress-percentage {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--color-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .topic-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .topic-progress-card {
             background: white;
             border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 20px;
+            padding: 30px;
             box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
         }
 
-        .progress-item:hover {
-            transform: translateX(8px);
+        .topic-progress-card:hover {
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
         }
 
-        .circular-progress {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(var(--color-success) 0deg, var(--color-success) 270deg, #e2e8f0 270deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+        .topic-progress-card.completed {
+            border: 2px solid var(--color-success);
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
         }
 
-        .circular-progress::before {
-            content: '';
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
+        .timeline {
             background: white;
-        }
-
-        .circular-progress-text {
-            position: relative;
-            z-index: 1;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: #2d3748;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
         }
 
         .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
             position: relative;
             padding-left: 40px;
-            margin-bottom: 30px;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: 12px;
+            left: 15px;
             top: 30px;
             bottom: -30px;
             width: 2px;
@@ -71,196 +116,121 @@
             display: none;
         }
 
-        .timeline-dot {
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             position: absolute;
             left: 0;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--gradient-success);
-            box-shadow: 0 0 0 4px white, 0 0 0 6px var(--color-success);
+            z-index: 1;
         }
 
-        .timeline-dot.pending {
-            background: #e2e8f0;
-            box-shadow: 0 0 0 4px white, 0 0 0 6px #cbd5e0;
+        .timeline-content {
+            flex: 1;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: var(--radius-md);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
 <body>
-    <!-- Back Button -->
-        <script src="js/loader.js"></script>
-    <script src="js/navigation.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initNavigation('progress');
-        });
-    </script>
-
-    <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <div class="progress-container">
         <!-- Header -->
-        <div style="text-align: center; padding: 80px 20px 60px; background: var(--gradient-info); color: white; border-radius: var(--radius-xl); margin-bottom: 40px;">
-            <h1 style="font-family: 'Fredoka', sans-serif; font-size: 56px; margin-bottom: 16px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
-                📊 Progress Belajarmu
+        <div class="progress-header">
+            <h1 style="font-family: 'Fredoka', sans-serif; font-size: 56px; margin-bottom: 16px;">
+                📊 Progress Belajar
             </h1>
-            <p style="font-size: 20px; opacity: 0.95;">Pantau perkembangan belajarmu setiap hari!</p>
+            <p style="font-size: 20px; opacity: 0.95;">Pantau perkembangan belajarmu di sini!</p>
         </div>
 
         <!-- Overall Progress -->
-        <div class="glass-container" style="text-align: center; margin-bottom: 40px; padding: 50px 30px;">
-            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 30px; color: #2d3748;">
-                🎯 Progress Keseluruhan
+        <div class="overall-progress">
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; text-align: center; margin-bottom: 30px; color: #2d3748;">
+                Progress Keseluruhan
             </h2>
             
-            <div class="circular-progress" style="margin: 0 auto 30px;">
-                <div class="circular-progress-text">0%</div>
+            <div class="progress-circle" id="progressCircle" style="--progress-deg: 0deg;">
+                <div class="progress-percentage" id="overallPercentage">0%</div>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px;">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--gradient-success);">📚</div>
-                    <div class="stat-content">
-                        <h3 id="totalMateriSelesai">0/10</h3>
-                        <p>Materi Selesai</p>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--gradient-warning);">🎯</div>
-                    <div class="stat-content">
-                        <h3 id="totalKuisSelesai">0/15</h3>
-                        <p>Kuis Selesai</p>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--gradient-primary);">⭐</div>
-                    <div class="stat-content">
-                        <h3 id="totalSkor">0</h3>
-                        <p>Total Skor</p>
-                    </div>
-                </div>
+            <div style="text-align: center; color: #718096;">
+                <p style="font-size: 20px; margin-bottom: 8px;">
+                    <strong id="completedCount">0</strong> dari <strong>8</strong> materi selesai
+                </p>
+                <p style="font-size: 16px;">
+                    Kamu sudah menyelesaikan <strong id="percentText">0%</strong> dari total pembelajaran!
+                </p>
             </div>
         </div>
 
-        <!-- Progress per Materi -->
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number" id="materiCount">0</div>
+                <p style="color: #718096; margin-top: 8px;">Materi Selesai</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="quizCount">0</div>
+                <p style="color: #718096; margin-top: 8px;">Kuis Dikerjakan</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="avgScore">0</div>
+                <p style="color: #718096; margin-top: 8px;">Rata-rata Skor</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="badgeCount">0</div>
+                <p style="color: #718096; margin-top: 8px;">Badge Terkumpul</p>
+            </div>
+        </div>
+
+        <!-- Topic Progress -->
         <div style="margin-bottom: 40px;">
-            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 30px; color: #2d3748; text-align: center;">
-                📖 Progress Per Materi
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 24px; color: #2d3748;">
+                📚 Progress Per Materi
             </h2>
-
-            <!-- Segitiga -->
-            <div class="progress-item">
-                <div style="display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;">
-                    <div style="font-size: 60px;">🔺</div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; color: #2d3748;">Segitiga</h3>
-                            <span class="badge-modern" style="background: var(--gradient-success);">✅ Selesai</span>
-                        </div>
-                        <div class="progress-bar-modern" style="margin-bottom: 12px;">
-                            <div class="progress-fill" style="width: 100%;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #718096;">
-                            <span>🎯 Skor Kuis: 85/100</span>
-                            <span>⏱️ Selesai: 2 hari lalu</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Persegi -->
-            <div class="progress-item">
-                <div style="display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;">
-                    <div style="font-size: 60px;">🟦</div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; color: #2d3748;">Persegi</h3>
-                            <span class="badge-modern" style="background: var(--gradient-warning);">⏳ Dalam Progress</span>
-                        </div>
-                        <div class="progress-bar-modern" style="margin-bottom: 12px;">
-                            <div class="progress-fill" style="width: 60%; background: var(--gradient-warning);"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #718096;">
-                            <span>📖 Materi dibaca</span>
-                            <span>🎯 Kuis belum dikerjakan</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lingkaran -->
-            <div class="progress-item">
-                <div style="display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;">
-                    <div style="font-size: 60px;">⭕</div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; color: #2d3748;">Lingkaran</h3>
-                            <span class="badge-modern" style="background: #e2e8f0; color: #718096;">Belum Dimulai</span>
-                        </div>
-                        <div class="progress-bar-modern" style="margin-bottom: 12px;">
-                            <div class="progress-fill" style="width: 0%; background: #cbd5e0;"></div>
-                        </div>
-                        <div style="font-size: 14px; color: #718096;">
-                            <span>💡 Mulai belajar sekarang!</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="topic-progress-grid" id="topicProgressGrid">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
 
-        <!-- Timeline Aktivitas -->
-        <div style="margin-bottom: 40px;">
-            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 30px; color: #2d3748; text-align: center;">
-                📅 Aktivitas Terakhir
+        <!-- Activity Timeline -->
+        <div class="timeline">
+            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 30px; color: #2d3748;">
+                📅 Timeline Aktivitas
             </h2>
-
-            <div class="glass-container" style="padding: 40px;">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="modern-card" style="margin: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
-                            <h4 style="font-weight: 600; color: #2d3748;">✅ Menyelesaikan Kuis Segitiga</h4>
-                            <span style="color: #718096; font-size: 14px;">2 hari lalu</span>
-                        </div>
-                        <p style="color: #718096; margin-bottom: 12px;">Skor: 85/100 - Bagus sekali!</p>
-                        <span class="badge-modern" style="background: var(--gradient-success); font-size: 12px;">🏆 Badge Earned: Segitiga Master</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="modern-card" style="margin: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
-                            <h4 style="font-weight: 600; color: #2d3748;">📖 Membaca Materi Persegi</h4>
-                            <span style="color: #718096; font-size: 14px;">1 hari lalu</span>
-                        </div>
-                        <p style="color: #718096;">Waktu belajar: 15 menit</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot pending"></div>
-                    <div class="modern-card" style="margin: 0; opacity: 0.7;">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
-                            <h4 style="font-weight: 600; color: #2d3748;">🎯 Target: Selesaikan Kuis Persegi</h4>
-                            <span style="color: #718096; font-size: 14px;">Target minggu ini</span>
-                        </div>
-                        <p style="color: #718096;">Ayo kerjakan kuis untuk melengkapi materi!</p>
-                    </div>
-                </div>
+            <div id="activityTimeline">
+                <p style="color: #718096; text-align: center; padding: 40px;">Belum ada aktivitas...</p>
             </div>
-        </div>
-
-        <!-- Motivational Quote -->
-        <div class="gradient-card" style="text-align: center; padding: 50px 30px; background: var(--gradient-primary); color: white;">
-            <div style="font-size: 60px; margin-bottom: 20px;" class="icon-bounce">🌟</div>
-            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 32px; margin-bottom: 16px;">"Terus Belajar, Raih Prestasi!"</h3>
-            <p style="font-size: 18px; opacity: 0.95; margin-bottom: 30px;">Kamu sudah melakukan yang hebat! Tetap semangat!</p>
-            <a href="materi.html" class="btn-modern" style="background: white; color: var(--color-primary);">
-                📚 Lanjut Belajar →
-            </a>
         </div>
     </div>
 
@@ -269,28 +239,260 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/notifications.js"></script>
     
     <script>
-        console.log('Progress page loaded!');
+        console.log('📊 Progress page loaded!');
 
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation('progress');
+        });
+
+        // Check authentication and load progress
         firebase.auth().onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'login.html';
                 return;
             }
-            console.log('User authenticated:', user.uid);
-            loadProgress(user.uid);
+            
+            console.log('✅ User authenticated:', user.uid);
+            loadProgressData(user.uid);
         });
 
-        async function loadProgress(userId) {
+        // Load all progress data
+        async function loadProgressData(userId) {
             try {
                 const snapshot = await firebase.database().ref('progress/' + userId).once('value');
                 const progressData = snapshot.val();
-                console.log('Progress data:', progressData);
-                // TODO: Update UI with real data
+                
+                console.log('📊 Progress data:', progressData);
+
+                if (progressData) {
+                    displayOverallProgress(progressData);
+                    displayTopicProgress(progressData);
+                    loadStatistics(userId);
+                    loadActivityTimeline(userId, progressData);
+                } else {
+                    console.log('ℹ️ No progress data yet');
+                    displayEmptyState();
+                }
             } catch (error) {
-                console.error('Error loading progress:', error);
+                console.error('❌ Error loading progress:', error);
+                showError('Gagal memuat progress: ' + error.message);
             }
+        }
+
+        // Display overall progress with correct calculation for 8 materi
+        function displayOverallProgress(progressData) {
+            const materiProgress = progressData.materi || {};
+            const completedMateri = Object.values(materiProgress).filter(m => m.completed).length;
+            
+            // FIXED: Calculate based on 8 total materi (not 2!)
+            const totalMateri = 8;
+            const percentage = Math.round((completedMateri / totalMateri) * 100);
+            const degrees = (percentage / 100) * 360;
+
+            // Update circle
+            const circle = document.getElementById('progressCircle');
+            circle.style.setProperty('--progress-deg', degrees + 'deg');
+
+            // Update text
+            document.getElementById('overallPercentage').textContent = percentage + '%';
+            document.getElementById('completedCount').textContent = completedMateri;
+            document.getElementById('percentText').textContent = percentage + '%';
+
+            console.log('✅ Overall progress:', {completedMateri, totalMateri, percentage});
+        }
+
+        // Display progress per topic
+        function displayTopicProgress(progressData) {
+            const materiProgress = progressData.materi || {};
+            const grid = document.getElementById('topicProgressGrid');
+            
+            // All 8 materi topics
+            const allTopics = [
+                {id: 'segitiga', name: 'Segitiga', icon: '🔺'},
+                {id: 'persegi', name: 'Persegi', icon: '🟦'},
+                {id: 'lingkaran', name: 'Lingkaran', icon: '⭕'},
+                {id: 'persegipanjang', name: 'Persegi Panjang', icon: '📏'},
+                {id: 'jajargenjang', name: 'Jajar Genjang', icon: '🔷'},
+                {id: 'trapesium', name: 'Trapesium', icon: '🔶'},
+                {id: 'belahketupat', name: 'Belah Ketupat', icon: '💎'},
+                {id: 'layanglayang', name: 'Layang-layang', icon: '🪁'}
+            ];
+
+            grid.innerHTML = '';
+
+            allTopics.forEach(topic => {
+                const progress = materiProgress[topic.id];
+                const isCompleted = progress?.completed || false;
+                const completedDate = progress?.completedAt ? new Date(progress.completedAt).toLocaleDateString('id-ID') : '-';
+
+                const card = document.createElement('div');
+                card.className = 'topic-progress-card' + (isCompleted ? ' completed' : '');
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                        <div style="font-size: 48px;">${topic.icon}</div>
+                        <div style="flex: 1;">
+                            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; margin-bottom: 4px; color: #2d3748;">
+                                ${topic.name}
+                            </h3>
+                            <p style="color: #718096; font-size: 14px;">
+                                ${isCompleted ? '✅ Selesai' : '⏳ Belum Selesai'}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar-modern" style="margin-bottom: 12px;">
+                        <div class="progress-fill" style="width: ${isCompleted ? '100' : '0'}%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; color: #718096;">
+                        <span>${isCompleted ? '100' : '0'}% Complete</span>
+                        <span>${isCompleted ? completedDate : '-'}</span>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Load statistics
+        async function loadStatistics(userId) {
+            try {
+                // Load materi count
+                const materiSnapshot = await firebase.database().ref('progress/' + userId + '/materi').once('value');
+                const materiData = materiSnapshot.val() || {};
+                const materiCount = Object.values(materiData).filter(m => m.completed).length;
+
+                // Load quiz results
+                const quizSnapshot = await firebase.database().ref('quiz-results/' + userId).once('value');
+                const quizData = quizSnapshot.val() || {};
+                const quizResults = Object.values(quizData);
+                const quizCount = quizResults.length;
+                const avgScore = quizCount > 0 
+                    ? Math.round(quizResults.reduce((sum, r) => sum + r.score, 0) / quizCount)
+                    : 0;
+
+                // Badge count (1 per completed materi)
+                const badgeCount = materiCount;
+
+                // Update display
+                document.getElementById('materiCount').textContent = materiCount;
+                document.getElementById('quizCount').textContent = quizCount;
+                document.getElementById('avgScore').textContent = avgScore;
+                document.getElementById('badgeCount').textContent = badgeCount;
+
+                console.log('📊 Statistics:', {materiCount, quizCount, avgScore, badgeCount});
+            } catch (error) {
+                console.error('❌ Error loading statistics:', error);
+            }
+        }
+
+        // Load activity timeline
+        async function loadActivityTimeline(userId, progressData) {
+            try {
+                const timeline = document.getElementById('activityTimeline');
+                const activities = [];
+
+                // Get materi completions
+                const materiProgress = progressData.materi || {};
+                Object.entries(materiProgress).forEach(([topik, data]) => {
+                    if (data.completed) {
+                        activities.push({
+                            type: 'materi',
+                            icon: '📚',
+                            title: `Menyelesaikan Materi ${data.title || topik}`,
+                            timestamp: data.completedAt,
+                            color: 'var(--gradient-success)'
+                        });
+                    }
+                });
+
+                // Get quiz results
+                const quizSnapshot = await firebase.database().ref('quiz-results/' + userId).once('value');
+                const quizData = quizSnapshot.val() || {};
+                Object.values(quizData).forEach(result => {
+                    activities.push({
+                        type: 'quiz',
+                        icon: '🎯',
+                        title: `Menyelesaikan Kuis ${result.quizType}`,
+                        detail: `Skor: ${result.score}/100 (${result.correct}/${result.total} benar)`,
+                        timestamp: result.timestamp,
+                        color: result.score >= 80 ? 'var(--gradient-success)' : 'var(--gradient-warning)'
+                    });
+                });
+
+                // Sort by timestamp (newest first)
+                activities.sort((a, b) => b.timestamp - a.timestamp);
+
+                // Display
+                if (activities.length === 0) {
+                    timeline.innerHTML = '<p style="color: #718096; text-align: center; padding: 40px;">Belum ada aktivitas. Mulai belajar sekarang!</p>';
+                    return;
+                }
+
+                timeline.innerHTML = '';
+                activities.forEach((activity, index) => {
+                    const timeAgo = getTimeAgo(activity.timestamp);
+                    const item = document.createElement('div');
+                    item.className = 'timeline-item';
+                    item.innerHTML = `
+                        <div class="timeline-icon" style="background: ${activity.color};">
+                            ${activity.icon}
+                        </div>
+                        <div class="timeline-content">
+                            <h4 style="font-weight: 600; color: #2d3748; margin-bottom: 8px;">
+                                ${activity.title}
+                            </h4>
+                            ${activity.detail ? `<p style="color: #718096; margin-bottom: 8px;">${activity.detail}</p>` : ''}
+                            <p style="color: #a0aec0; font-size: 14px;">${timeAgo}</p>
+                        </div>
+                    `;
+                    timeline.appendChild(item);
+                });
+
+                console.log('✅ Timeline loaded:', activities.length, 'activities');
+            } catch (error) {
+                console.error('❌ Error loading timeline:', error);
+            }
+        }
+
+        // Display empty state
+        function displayEmptyState() {
+            document.getElementById('topicProgressGrid').innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                    <div style="font-size: 80px; margin-bottom: 20px;">📚</div>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px; color: #2d3748;">
+                        Belum Ada Progress
+                    </h3>
+                    <p style="color: #718096; margin-bottom: 30px;">
+                        Mulai belajar untuk melihat progress kamu!
+                    </p>
+                    <a href="materi.html" class="btn-modern btn-primary" style="text-decoration: none;">
+                        🚀 Mulai Belajar
+                    </a>
+                </div>
+            `;
+        }
+
+        // Helper function to get time ago
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'Baru saja';
+            if (seconds < 3600) return Math.floor(seconds / 60) + ' menit yang lalu';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + ' jam yang lalu';
+            if (seconds < 604800) return Math.floor(seconds / 86400) + ' hari yang lalu';
+            
+            return new Date(timestamp).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
         }
     </script>
 </body>
