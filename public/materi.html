@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="stylesheet" href="css/navigation.css">
-    <link rel="stylesheet" href="css/loader.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi Geometri - Kelas 5 SD</title>
     <link rel="stylesheet" href="css/modern-style.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <style>
         .topic-card {
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            text-decoration: none;
+            display: block;
         }
 
         .topic-card:hover {
@@ -58,15 +61,6 @@
             margin-bottom: 40px;
         }
 
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            background: white;
-            box-shadow: var(--shadow-lg);
-        }
-
         @media (max-width: 768px) {
             .topic-icon { font-size: 60px; }
             .category-header { padding: 40px 20px 30px; }
@@ -74,16 +68,7 @@
     </style>
 </head>
 <body>
-    <!-- Back Button -->
-        <script src="js/loader.js"></script>
-    <script src="js/navigation.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initNavigation('materi');
-        });
-    </script>
-
-    <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 20px; padding-top: 100px;">
         <!-- Header -->
         <div class="category-header">
             <h1 style="font-family: 'Fredoka', sans-serif; font-size: 56px; margin-bottom: 16px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
@@ -100,7 +85,7 @@
             
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
                 <!-- Segitiga -->
-                <div class="modern-card topic-card gradient-bg-1" onclick="goToMateri('segitiga')" style="color: white; text-align: center; padding: 40px 30px;">
+                <a href="materi-detail.html?topik=segitiga" class="modern-card topic-card gradient-bg-1" style="color: white; text-align: center; padding: 40px 30px;">
                     <span class="topic-badge" style="color: var(--color-primary);">Populer ⭐</span>
                     <div class="topic-icon icon-bounce">🔺</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Segitiga</h3>
@@ -109,10 +94,10 @@
                         <div class="progress-fill" style="width: 0%; background: white;"></div>
                     </div>
                     <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
-                </div>
+                </a>
 
                 <!-- Persegi -->
-                <div class="modern-card topic-card gradient-bg-2" onclick="goToMateri('persegi')" style="color: white; text-align: center; padding: 40px 30px;">
+                <a href="materi-detail.html?topik=persegi" class="modern-card topic-card gradient-bg-2" style="color: white; text-align: center; padding: 40px 30px;">
                     <div class="topic-icon icon-pulse">🟦</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Persegi</h3>
                     <p style="opacity: 0.95; margin-bottom: 20px;">Kenali sifat & rumus persegi</p>
@@ -120,73 +105,55 @@
                         <div class="progress-fill" style="width: 0%; background: white;"></div>
                     </div>
                     <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
-                </div>
+                </a>
 
                 <!-- Persegi Panjang -->
-                <div class="modern-card topic-card gradient-bg-3" onclick="goToMateri('persegi-panjang')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-rotate">📏</div>
+                <div class="modern-card topic-card gradient-bg-3" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">📏</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Persegi Panjang</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Pahami rumus luas & keliling</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Jajar Genjang -->
-                <div class="modern-card topic-card gradient-bg-4" onclick="goToMateri('jajar-genjang')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-bounce">🔷</div>
+                <div class="modern-card topic-card gradient-bg-4" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">🔷</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Jajar Genjang</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Belajar rumus & sifatnya</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Trapesium -->
-                <div class="modern-card topic-card gradient-bg-5" onclick="goToMateri('trapesium')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-pulse">🔶</div>
+                <div class="modern-card topic-card gradient-bg-5" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">🔶</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Trapesium</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Rumus luas trapesium</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Belah Ketupat -->
-                <div class="modern-card topic-card gradient-bg-1" onclick="goToMateri('belah-ketupat')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-rotate">💎</div>
+                <div class="modern-card topic-card gradient-bg-1" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">💎</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Belah Ketupat</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Sifat & rumus belah ketupat</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Layang-layang -->
-                <div class="modern-card topic-card gradient-bg-2" onclick="goToMateri('layang-layang')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-bounce">🪁</div>
+                <div class="modern-card topic-card gradient-bg-2" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">🪁</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Layang-layang</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Rumus luas layang-layang</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Lingkaran -->
-                <div class="modern-card topic-card gradient-bg-3" onclick="goToMateri('lingkaran')" style="color: white; text-align: center; padding: 40px 30px;">
+                <div class="modern-card topic-card gradient-bg-3" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
                     <span class="topic-badge" style="color: var(--color-warning);">Penting! 🔥</span>
-                    <div class="topic-icon icon-rotate">⭕</div>
+                    <div class="topic-icon">⭕</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Lingkaran</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Keliling & luas lingkaran</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
             </div>
         </div>
@@ -199,25 +166,19 @@
             
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
                 <!-- Kubus -->
-                <div class="modern-card topic-card gradient-bg-4" onclick="goToMateri('kubus')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-pulse">🎲</div>
+                <div class="modern-card topic-card gradient-bg-4" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">🎲</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Kubus</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Volume & luas permukaan kubus</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
 
                 <!-- Balok -->
-                <div class="modern-card topic-card gradient-bg-5" onclick="goToMateri('balok')" style="color: white; text-align: center; padding: 40px 30px;">
-                    <div class="topic-icon icon-bounce">📦</div>
+                <div class="modern-card topic-card gradient-bg-5" style="color: white; text-align: center; padding: 40px 30px; opacity: 0.6; cursor: not-allowed;">
+                    <div class="topic-icon">📦</div>
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 12px;">Balok</h3>
-                    <p style="opacity: 0.95; margin-bottom: 20px;">Rumus volume & luas balok</p>
-                    <div class="progress-bar-modern" style="margin-bottom: 16px;">
-                        <div class="progress-fill" style="width: 0%; background: white;"></div>
-                    </div>
-                    <span style="font-size: 14px; opacity: 0.9;">0% Selesai</span>
+                    <p style="opacity: 0.95; margin-bottom: 20px;">Segera Hadir</p>
+                    <span style="font-size: 14px; opacity: 0.9;">🔒 Coming Soon</span>
                 </div>
             </div>
         </div>
@@ -225,6 +186,7 @@
         <!-- Footer -->
         <div style="text-align: center; padding: 40px 20px;">
             <p style="color: #718096; font-size: 16px;">💡 <strong>Tips:</strong> Klik materi untuk mulai belajar!</p>
+            <p style="color: #a0aec0; font-size: 14px; margin-top: 12px;">Materi lainnya akan segera ditambahkan 🚀</p>
         </div>
     </div>
 
@@ -233,9 +195,17 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/notifications.js"></script>
     
     <script>
         console.log('Materi page loaded!');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation('materi');
+        });
 
         // Check authentication
         firebase.auth().onAuthStateChanged((user) => {
@@ -255,23 +225,11 @@
                 
                 if (progressData) {
                     console.log('Progress data:', progressData);
-                    // Update progress bars based on data
-                    // TODO: Implement progress bar updates
+                    // TODO: Update progress bars based on data
                 }
             } catch (error) {
                 console.error('Error loading progress:', error);
             }
-        }
-
-        // Navigate to materi detail
-                // Navigate to materi detail
-        function goToMateri(topik) {
-            console.log('Navigating to:', topik);
-            window.location.href = `materi-detail.html?topik=${topik}`;
-        }
-            alert(`🚀 Materi "${topik}" akan segera tersedia!\n\nFitur pembelajaran interaktif sedang dalam pengembangan.`);
-            // TODO: Navigate to detail page
-            // window.location.href = `materi-detail.html?topik=${topik}`;
         }
     </script>
 </body>
