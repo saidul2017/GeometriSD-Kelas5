@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/loader.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi Geometri - Kelas 5 SD</title>
@@ -73,9 +75,13 @@
 </head>
 <body>
     <!-- Back Button -->
-    <a href="dashboard-siswa.html" class="btn-modern btn-primary back-button">
-        ← Kembali
-    </a>
+        <script src="js/loader.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation('materi');
+        });
+    </script>
 
     <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
         <!-- Header -->

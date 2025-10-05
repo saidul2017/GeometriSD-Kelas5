@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
+<head>    
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/loader.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Belajar - Geometri SD</title>
@@ -88,9 +90,13 @@
 </head>
 <body>
     <!-- Back Button -->
-    <a href="dashboard-siswa.html" class="btn-modern btn-primary" style="position: fixed; top: 20px; left: 20px; z-index: 100; background: white; color: var(--color-primary); box-shadow: var(--shadow-lg);">
-        ← Kembali
-    </a>
+        <script src="js/loader.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation('progress');
+        });
+    </script>
 
     <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
         <!-- Header -->
