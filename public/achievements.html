@@ -78,14 +78,6 @@
     </style>
 </head>
 <body>
-    <!-- Back Button -->
-        <script src="js/loader.js"></script>
-    <script src="js/navigation.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initNavigation('achievements');
-        });
-    </script>
 
     <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
         <!-- Header -->
@@ -241,15 +233,20 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    
+    <script src="js/loader.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/notifications.js" defer></script>
+
     <script>
         console.log('Achievements page loaded!');
 
-        firebase.auth().onAuthStateChanged((user) => {
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initNavigation === 'function') {
+                initNavigation('achievements');
             }
+        });
+
+        requireAuth((user) => {
             console.log('User authenticated:', user.uid);
         });
 

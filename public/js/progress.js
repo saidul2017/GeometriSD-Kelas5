@@ -2,15 +2,17 @@
    PROGRESS TRACKING SYSTEM
    Real-time Progress Monitoring
 ======================================== */
+(() => {
+  'use strict';
 
-// Load Overall Progress
-async function loadOverallProgress() {
+  // Load Overall Progress
+  async function loadOverallProgress() {
     const userId = getCurrentUserId();
     if (!userId) return;
     
     try {
-        // Get materials progress
-        const materialSnapshot = await progressRef.child(userId).once('value');
+        // Get materials progress (standardized structure)
+        const materialSnapshot = await progressRef.child(userId).child('materi').once('value');
         const materialProgress = materialSnapshot.val() || {};
         
         // Get quiz results
@@ -44,7 +46,7 @@ async function loadOverallProgress() {
     } catch (error) {
         console.error('Error loading progress:', error);
     }
-}
+  }
 
 // Update Overall Progress UI
 function updateOverallProgressUI(percentage, completedMaterials, totalQuizzes, avgScore) {
@@ -78,7 +80,7 @@ function updateOverallProgressUI(percentage, completedMaterials, totalQuizzes, a
 }
 
 // Load Material Progress List
-function loadMaterialProgressList(progressData) {
+  function loadMaterialProgressList(progressData) {
     const container = document.getElementById('materialProgressList');
     if (!container) return;
     
@@ -116,10 +118,10 @@ function loadMaterialProgressList(progressData) {
             </div>
         `;
     }).join('');
-}
+  }
 
 // Load Quiz History
-function loadQuizHistory(quizResults) {
+  function loadQuizHistory(quizResults) {
     const container = document.getElementById('quizHistory');
     if (!container) return;
     
@@ -165,10 +167,10 @@ function loadQuizHistory(quizResults) {
             </div>
         `;
     }).join('');
-}
+  }
 
 // Load Achievements
-function loadAchievements(completedMaterials, totalQuizzes, avgScore) {
+  function loadAchievements(completedMaterials, totalQuizzes, avgScore) {
     const achievements = [
         {
             id: 'beginner',
@@ -247,10 +249,10 @@ function loadAchievements(completedMaterials, totalQuizzes, avgScore) {
             </div>
         `;
     }).join('');
-}
+  }
 
 // Load Study Calendar
-async function loadStudyCalendar(userId) {
+  async function loadStudyCalendar(userId) {
     const container = document.getElementById('studyCalendar');
     if (!container) return;
     
@@ -293,10 +295,10 @@ async function loadStudyCalendar(userId) {
     } catch (error) {
         console.error('Error loading calendar:', error);
     }
-}
+  }
 
 // Track Daily Activity
-async function trackDailyActivity() {
+  async function trackDailyActivity() {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -310,10 +312,10 @@ async function trackDailyActivity() {
     } catch (error) {
         console.error('Error tracking activity:', error);
     }
-}
+  }
 
 // Load Dashboard Stats (for student dashboard)
-async function loadDashboardStats() {
+  async function loadDashboardStats() {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -356,25 +358,26 @@ async function loadDashboardStats() {
     } catch (error) {
         console.error('Error loading dashboard stats:', error);
     }
-}
+  }
 
 // Initialize on page load
-if (window.location.pathname.includes('progress.html')) {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadOverallProgress();
-            trackDailyActivity();
-        }
+  if (window.location.pathname.includes('progress.html')) {
+    requireAuth((user) => {
+      loadOverallProgress();
+      trackDailyActivity();
     });
-}
+  }
 
-if (window.location.pathname.includes('dashboard-siswa.html')) {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadDashboardStats();
-            trackDailyActivity();
-        }
+  if (window.location.pathname.includes('dashboard-siswa.html')) {
+    requireAuth((user) => {
+      loadDashboardStats();
+      trackDailyActivity();
     });
-}
+  }
 
-console.log('Progress module loaded! 📊');
+  // Export to global scope where needed
+  window.loadOverallProgress = loadOverallProgress;
+  window.loadDashboardStats = loadDashboardStats;
+
+  console.log('Progress module loaded! 📊');
+})();

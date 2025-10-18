@@ -1,9 +1,11 @@
 // Navigation.js - Global Navigation Component
+(() => {
+  'use strict';
 
-console.log('Navigation.js loaded! 🧭');
+  console.log('Navigation.js loaded! 🧭');
 
-// Create Navigation HTML
-function createNavigation(currentPage = 'dashboard') {
+  // Create Navigation HTML
+  function createNavigation(currentPage = 'dashboard') {
     const navHTML = `
         <nav class="main-nav">
             <div class="nav-container">
@@ -72,99 +74,100 @@ function createNavigation(currentPage = 'dashboard') {
     `;
 
     return navHTML;
-}
+  }
 
-// Insert navigation into page
-function initNavigation(currentPage = 'dashboard') {
+  // Insert navigation into page
+  function initNavigation(currentPage = 'dashboard') {
     // Check if navigation already exists
     if (document.querySelector('.main-nav')) {
-        console.log('Navigation already exists');
-        return;
+      console.log('Navigation already exists');
+      return;
     }
 
     // Insert at the beginning of body
     document.body.insertAdjacentHTML('afterbegin', createNavigation(currentPage));
-    
+
     // Add padding to body to account for fixed nav
     document.body.style.paddingTop = '80px';
-    
+
     // Initialize event listeners
     initNavigationEvents();
-    
-    console.log('Navigation initialized! ✅');
-}
 
-// Initialize navigation events
-function initNavigationEvents() {
+    console.log('Navigation initialized! ✅');
+  }
+
+  // Initialize navigation events
+  function initNavigationEvents() {
     // Logout button
     const logoutBtn = document.getElementById('navLogoutBtn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                await firebase.auth().signOut();
-                window.location.href = 'login.html';
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert('Gagal logout. Coba lagi!');
-            }
-        });
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+          await firebase.auth().signOut();
+          window.location.href = 'login.html';
+        } catch (error) {
+          console.error('Logout error:', error);
+          alert('Gagal logout. Coba lagi!');
+        }
+      });
     }
 
     // Load user data
     firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-            try {
-                const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
-                const userData = snapshot.val();
-                
-                if (userData) {
-                    // Update nav with user info
-                    const navUserName = document.getElementById('navUserName');
-                    const userMenuName = document.getElementById('userMenuName');
-                    const userMenuEmail = document.getElementById('userMenuEmail');
-                    
-                    if (navUserName) navUserName.textContent = userData.name || 'User';
-                    if (userMenuName) userMenuName.textContent = userData.name || 'User';
-                    if (userMenuEmail) userMenuEmail.textContent = userData.email || user.email;
-                }
-            } catch (error) {
-                console.error('Error loading user data:', error);
-            }
+      if (user) {
+        try {
+          const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
+          const userData = snapshot.val();
+
+          if (userData) {
+            // Update nav with user info
+            const navUserName = document.getElementById('navUserName');
+            const userMenuName = document.getElementById('userMenuName');
+            const userMenuEmail = document.getElementById('userMenuEmail');
+
+            if (navUserName) navUserName.textContent = userData.name || 'User';
+            if (userMenuName) userMenuName.textContent = userData.name || 'User';
+            if (userMenuEmail) userMenuEmail.textContent = userData.email || user.email;
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
         }
+      }
     });
 
     // Close user menu when clicking outside
     document.addEventListener('click', (e) => {
-        const userMenu = document.getElementById('userMenu');
-        const userMenuBtn = document.getElementById('userMenuBtn');
-        
-        if (userMenu && userMenuBtn && !userMenuBtn.contains(e.target) && !userMenu.contains(e.target)) {
-            userMenu.style.display = 'none';
-        }
-    });
-}
+      const userMenu = document.getElementById('userMenu');
+      const userMenuBtn = document.getElementById('userMenuBtn');
 
-// Toggle user menu
-function toggleUserMenu() {
+      if (userMenu && userMenuBtn && !userMenuBtn.contains(e.target) && !userMenu.contains(e.target)) {
+        userMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // Toggle user menu
+  function toggleUserMenu() {
     const userMenu = document.getElementById('userMenu');
     if (userMenu) {
-        userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+      userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
     }
-}
+  }
 
-// Toggle mobile menu
-function toggleMobileMenu() {
+  // Toggle mobile menu
+  function toggleMobileMenu() {
     const navMenu = document.getElementById('navMenu');
     const mobileToggle = document.getElementById('mobileMenuToggle');
-    
-    if (navMenu && mobileToggle) {
-        navMenu.classList.toggle('active');
-        mobileToggle.classList.toggle('active');
-    }
-}
 
-// Export for use in other scripts
-window.initNavigation = initNavigation;
-window.toggleUserMenu = toggleUserMenu;
-window.toggleMobileMenu = toggleMobileMenu;
+    if (navMenu && mobileToggle) {
+      navMenu.classList.toggle('active');
+      mobileToggle.classList.toggle('active');
+    }
+  }
+
+  // Export for use in other scripts
+  window.initNavigation = initNavigation;
+  window.toggleUserMenu = toggleUserMenu;
+  window.toggleMobileMenu = toggleMobileMenu;
+})();
