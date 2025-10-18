@@ -16,4 +16,56 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
 
+// Database references
+const usersRef = database.ref('users');
+const progressRef = database.ref('progress');
+const quizzesRef = database.ref('quizzes');
+
+// Helper function to get current user ID
+function getCurrentUserId() {
+    const user = firebase.auth().currentUser;
+    return user ? user.uid : null;
+}
+
+// Helper function to update progress
+async function updateProgress(userId, materiId, progress) {
+    if (!userId || !materiId) return;
+    
+    try {
+        await progressRef.child(userId).child(materiId).set({
+            progress: progress,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+        return true;
+    } catch (error) {
+        console.error('Error updating progress:', error);
+        throw error;
+    }
+}
+
+// Helper function to save quiz result
+async function saveQuizResult(userId, quizData) {
+    if (!userId || !quizData) return;
+    
+    try {
+        const quizRef = quizzesRef.child(userId).push();
+        await quizRef.set({
+            ...quizData,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+        return quizRef.key;
+    } catch (error) {
+        console.error('Error saving quiz result:', error);
+        throw error;
+    }
+}
+
+// Export helper functions globally
+window.getCurrentUserId = getCurrentUserId;
+window.updateProgress = updateProgress;
+window.saveQuizResult = saveQuizResult;
+window.usersRef = usersRef;
+window.progressRef = progressRef;
+window.quizzesRef = quizzesRef;
+
 console.log('Firebase initialized successfully!');
