@@ -1,7 +1,5 @@
 // Notifications.js - Toast Notification System
 
-console.log('Notifications.js loaded! 🔔');
-
 // Create notification container
 function createNotificationContainer() {
     if (document.getElementById('notificationContainer')) return;

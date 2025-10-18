@@ -1,7 +1,5 @@
 // Dashboard.js - Dashboard Logic
 
-console.log('Dashboard.js loaded');
-
 // Check authentication
 firebase.auth().onAuthStateChanged(async (user) => {
     if (!user) {
@@ -10,16 +8,12 @@ firebase.auth().onAuthStateChanged(async (user) => {
         return;
     }
     
-    console.log('User logged in:', user.uid);
-    
     // Load user data
     try {
         const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
         const userData = snapshot.val();
         
         if (userData) {
-            console.log('User data:', userData);
-            
             // Update user name
             const userNameEl = document.getElementById('userName');
             if (userNameEl) {
@@ -28,8 +22,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
             
             // Load progress data
             loadProgressData(user.uid);
-        } else {
-            console.error('User data not found in database');
         }
     } catch (error) {
         console.error('Error loading user data:', error);
@@ -41,8 +33,6 @@ async function loadProgressData(userId) {
     try {
         const snapshot = await firebase.database().ref('progress/' + userId).once('value');
         const progressData = snapshot.val();
-        
-        console.log('Progress data:', progressData);
         
         if (progressData && progressData.materi) {
             const materiArray = Object.values(progressData.materi);
@@ -70,9 +60,6 @@ async function loadProgressData(userId) {
             if (badgeCountEl) {
                 badgeCountEl.textContent = badgeCount;
             }
-        } else {
-            // No progress yet, show 0
-            console.log('No progress data found, showing defaults');
         }
     } catch (error) {
         console.error('Error loading progress:', error);
@@ -93,4 +80,4 @@ if (logoutBtn) {
     });
 }
 
-console.log('Dashboard.js initialized');
+// Dashboard module initialized

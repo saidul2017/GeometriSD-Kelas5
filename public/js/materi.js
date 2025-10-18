@@ -164,14 +164,24 @@ categoryTabs.forEach(tab => {
 
 // Open Material Detail
 function openMateri(materiId) {
+    if (!materiId) {
+        showError('ID materi tidak valid!');
+        return;
+    }
+    
     const materi = materiData[materiId];
     if (!materi) {
-        alert('Materi belum tersedia!');
+        showError('Materi belum tersedia!');
         return;
     }
     
     const modal = document.getElementById('materiModal');
     const materiContent = document.getElementById('materiContent');
+    
+    if (!modal || !materiContent) {
+        console.error('Modal elements not found');
+        return;
+    }
     
     materiContent.innerHTML = `
         <h1>${materi.title}</h1>
@@ -291,4 +301,4 @@ if (window.location.pathname.includes('materi.html')) {
     });
 }
 
-console.log('Materi module loaded! 📚');
+// Materi module initialized

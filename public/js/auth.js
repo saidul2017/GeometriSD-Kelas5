@@ -16,9 +16,22 @@ if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const email = document.getElementById('email').value;
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
         const submitBtn = loginForm.querySelector('button[type="submit"]');
+        
+        // Validate inputs
+        if (!email || !password) {
+            errorMsg.textContent = '❌ Email dan password harus diisi!';
+            errorMsg.style.display = 'block';
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            errorMsg.textContent = '❌ Format email tidak valid!';
+            errorMsg.style.display = 'block';
+            return;
+        }
         
         // Show loading state
         submitBtn.textContent = 'Memproses...';
@@ -29,8 +42,6 @@ if (loginForm) {
             // Firebase login
             const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
             const user = userCredential.user;
-            
-            console.log('Login successful:', user.uid);
             
             // Check user role from database
             const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
@@ -73,7 +84,7 @@ async function checkUserRole(uid) {
             }
         }
     } catch (error) {
-        console.error('Error checking role:', error);
+        console.error('Error checking user role:', error);
     }
 }
 
@@ -110,4 +121,4 @@ window.logout = async function() {
     }
 };
 
-console.log('Auth.js loaded successfully');
+// Auth module initialized
