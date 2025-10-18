@@ -332,7 +332,7 @@ async function loadDashboardStats() {
             : 0;
         
         // Count badges (simplified)
-        const badges = 0;
+        let badges = 0;
         if (completedLessons >= 1) badges++;
         if (completedLessons >= 5) badges++;
         if (avgScore >= 80) badges++;

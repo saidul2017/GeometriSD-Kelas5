@@ -183,6 +183,12 @@ async function viewStudentDetail(studentId) {
         const userSnapshot = await usersRef.child(studentId).once('value');
         const student = userSnapshot.val();
         
+        // Check if student exists
+        if (!student) {
+            alert('Data siswa tidak ditemukan');
+            return;
+        }
+        
         const progressSnapshot = await progressRef.child(studentId).once('value');
         const quizSnapshot = await quizzesRef.child(studentId).once('value');
         
