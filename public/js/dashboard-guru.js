@@ -2,9 +2,11 @@
    DASHBOARD GURU - TEACHER MONITORING
    Student Progress Monitoring System
 ======================================== */
+(() => {
+  'use strict';
 
-// Load Teacher Dashboard Data
-async function loadTeacherDashboard() {
+  // Load Teacher Dashboard Data
+  async function loadTeacherDashboard() {
     try {
         // Get all students
         const usersSnapshot = await usersRef.once('value');
@@ -12,18 +14,18 @@ async function loadTeacherDashboard() {
         
         // Filter students only
         const students = Object.entries(allUsers)
-            .filter(([id, user]) => user.role === 'siswa')
-            .map(([id, user]) => ({ id, ...user }));
+          .filter(([id, user]) => user.role === 'siswa')
+          .map(([id, user]) => ({ id, ...user }));
         
         // Get progress for all students
         const progressPromises = students.map(async student => {
-            const progressSnapshot = await progressRef.child(student.id).once('value');
+            const progressSnapshot = await progressRef.child(student.id).child('materi').once('value');
             const quizSnapshot = await quizzesRef.child(student.id).once('value');
             
             const materialProgress = progressSnapshot.val() || {};
             const quizResults = quizSnapshot.val() || {};
             
-            const completedMaterials = Object.values(materialProgress).filter(m => m.progress === 100).length;
+            const completedMaterials = Object.values(materialProgress).filter(m => (m.progress || 0) === 100 || m.completed).length;
             const quizArray = Object.values(quizResults);
             const completedQuizzes = quizArray.length;
             const avgScore = completedQuizzes > 0
@@ -56,10 +58,10 @@ async function loadTeacherDashboard() {
     } catch (error) {
         console.error('Error loading teacher dashboard:', error);
     }
-}
+  }
 
 // Update Overall Stats
-function updateOverallStats(students) {
+  function updateOverallStats(students) {
     const totalStudents = students.length;
     const activeToday = students.filter(s => {
         const lastActive = new Date(s.lastActive);
@@ -82,10 +84,10 @@ function updateOverallStats(students) {
     document.getElementById('activeStudents').textContent = activeToday;
     document.getElementById('avgScore').textContent = avgScore;
     document.getElementById('completionRate').textContent = `${completionRate}%`;
-}
+  }
 
 // Display Student Table
-function displayStudentTable(students) {
+  function displayStudentTable(students) {
     const tbody = document.getElementById('studentTableBody');
     if (!tbody) return;
     
@@ -117,10 +119,10 @@ function displayStudentTable(students) {
             </tr>
         `;
     }).join('');
-}
+  }
 
 // Display Top Performers
-function displayTopPerformers(students) {
+  function displayTopPerformers(students) {
     const container = document.getElementById('topPerformers');
     if (!container) return;
     
@@ -147,10 +149,10 @@ function displayTopPerformers(students) {
             </div>
         `;
     }).join('');
-}
+  }
 
 // Display Recent Activities
-function displayRecentActivities(students) {
+  function displayRecentActivities(students) {
     const container = document.getElementById('recentActivities');
     if (!container) return;
     
@@ -174,10 +176,10 @@ function displayRecentActivities(students) {
         }).join('');
     
     container.innerHTML = activities || '<div class="empty-state"><p>Belum ada aktivitas</p></div>';
-}
+  }
 
 // View Student Detail (Modal)
-async function viewStudentDetail(studentId) {
+  async function viewStudentDetail(studentId) {
     try {
         // Get student data
         const userSnapshot = await usersRef.child(studentId).once('value');
@@ -243,28 +245,28 @@ async function viewStudentDetail(studentId) {
         console.error('Error viewing student detail:', error);
         alert('Gagal memuat detail siswa');
     }
-}
+  }
 
 // Search Student
-const searchInput = document.getElementById('searchStudent');
-if (searchInput) {
+  const searchInput = document.getElementById('searchStudent');
+  if (searchInput) {
     searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const rows = document.querySelectorAll('#studentTableBody tr');
-        
-        rows.forEach(row => {
-            const name = row.cells[0]?.textContent.toLowerCase();
-            if (name && name.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#studentTableBody tr');
+
+      rows.forEach(row => {
+        const name = row.cells[0]?.textContent.toLowerCase();
+        if (name && name.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
     });
-}
+  }
 
 // Helper: Time Ago
-function getTimeAgo(date) {
+  function getTimeAgo(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
     
     const intervals = {
@@ -285,15 +287,17 @@ function getTimeAgo(date) {
     }
     
     return 'Baru saja';
-}
+  }
 
 // Initialize on page load
-if (window.location.pathname.includes('dashboard-guru.html')) {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadTeacherDashboard();
-        }
+  if (window.location.pathname.includes('dashboard-guru.html')) {
+    requireAuth(() => {
+      loadTeacherDashboard();
     });
-}
+  }
 
-console.log('Dashboard Guru module loaded! 👩‍🏫');
+  // Export functions used by inline handlers
+  window.viewStudentDetail = viewStudentDetail;
+
+  console.log('Dashboard Guru module loaded! 👩‍🏫');
+})();

@@ -1,9 +1,11 @@
 /* ========================================
    MATERI PEMBELAJARAN - INTERACTIVE LOGIC
 ======================================== */
+(() => {
+  'use strict';
 
-// Material Data
-const materiData = {
+  // Material Data
+  const materiData = {
     segitiga: {
         title: '🔺 Segitiga',
         description: 'Belajar tentang segitiga dan jenis-jenisnya',
@@ -145,25 +147,26 @@ const materiData = {
         questions: 5
     }
     // Add more materials as needed
-};
+  };
 
 // Category Tab Switching
-const categoryTabs = document.querySelectorAll('.tab-btn');
-categoryTabs.forEach(tab => {
+  const categoryTabs = document.querySelectorAll('.tab-btn');
+  categoryTabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        // Remove active class from all tabs
-        categoryTabs.forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
-        
-        // Add active class to clicked tab
-        tab.classList.add('active');
-        const category = tab.getAttribute('data-category');
-        document.getElementById(category).classList.add('active');
+      // Remove active class from all tabs
+      categoryTabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
+
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      const category = tab.getAttribute('data-category');
+      const section = document.getElementById(category);
+      if (section) section.classList.add('active');
     });
-});
+  });
 
 // Open Material Detail
-function openMateri(materiId) {
+  function openMateri(materiId) {
     const materi = materiData[materiId];
     if (!materi) {
         alert('Materi belum tersedia!');
@@ -188,29 +191,29 @@ function openMateri(materiId) {
     
     // Track that user started this material
     trackMaterialView(materiId);
-}
+  }
 
 // Close Modal
-const closeButtons = document.querySelectorAll('.close');
-closeButtons.forEach(btn => {
+  const closeButtons = document.querySelectorAll('.close');
+  closeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.classList.remove('active');
-            modal.style.display = 'none';
-        });
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      });
     });
-});
+  });
 
 // Close modal on outside click
-window.addEventListener('click', (e) => {
+  window.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal')) {
-        e.target.classList.remove('active');
-        e.target.style.display = 'none';
+      e.target.classList.remove('active');
+      e.target.style.display = 'none';
     }
-});
+  });
 
 // Complete Material
-async function completeMateri(materiId) {
+  async function completeMateri(materiId) {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -227,15 +230,15 @@ async function completeMateri(materiId) {
         console.error('Error completing material:', error);
         showNotification('Gagal menyimpan progress!', 'error');
     }
-}
+  }
 
 // Go to Quiz
-function goToQuiz(materiId) {
+  function goToQuiz(materiId) {
     window.location.href = `kuis.html?topic=${materiId}`;
-}
+  }
 
 // Track Material View
-async function trackMaterialView(materiId) {
+  async function trackMaterialView(materiId) {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -250,10 +253,10 @@ async function trackMaterialView(materiId) {
     } catch (error) {
         console.error('Error tracking material view:', error);
     }
-}
+  }
 
 // Update Material Progress in UI
-function updateMaterialProgress(materiId, progress) {
+  function updateMaterialProgress(materiId, progress) {
     const card = document.querySelector(`[data-topic="${materiId}"]`);
     if (card) {
         const progressFill = card.querySelector('.progress-fill');
@@ -262,10 +265,10 @@ function updateMaterialProgress(materiId, progress) {
         if (progressFill) progressFill.style.width = `${progress}%`;
         if (progressText) progressText.textContent = `${progress}% selesai`;
     }
-}
+  }
 
 // Load User Progress on Page Load
-async function loadMaterialProgress() {
+  async function loadMaterialProgress() {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -280,15 +283,19 @@ async function loadMaterialProgress() {
     } catch (error) {
         console.error('Error loading progress:', error);
     }
-}
+  }
 
 // Initialize on page load
-if (window.location.pathname.includes('materi.html')) {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadMaterialProgress();
-        }
+  if (window.location.pathname.includes('materi.html')) {
+    requireAuth(() => {
+      loadMaterialProgress();
     });
-}
+  }
 
-console.log('Materi module loaded! 📚');
+  // Export to global scope used by inline handlers
+  window.openMateri = openMateri;
+  window.completeMateri = completeMateri;
+  window.goToQuiz = goToQuiz;
+
+  console.log('Materi module loaded! 📚');
+})();

@@ -2,9 +2,11 @@
    KUIS SYSTEM - INTERACTIVE QUIZ
    With Auto Feedback & Explanations
 ======================================== */
+(() => {
+  'use strict';
 
-// Quiz Questions Database
-const quizDatabase = {
+  // Quiz Questions Database
+  const quizDatabase = {
     segitiga: {
         title: 'Kuis Segitiga',
         questions: [
@@ -305,17 +307,17 @@ const quizDatabase = {
             }
         ]
     }
-};
+  };
 
 // Quiz State
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let startTime = null;
-let timerInterval = null;
+  let currentQuiz = null;
+  let currentQuestionIndex = 0;
+  let userAnswers = [];
+  let startTime = null;
+  let timerInterval = null;
 
 // Start Quiz
-function startQuiz(quizId) {
+  function startQuiz(quizId) {
     currentQuiz = quizDatabase[quizId];
     if (!currentQuiz) {
         alert('Kuis belum tersedia!');
@@ -339,10 +341,10 @@ function startQuiz(quizId) {
     
     // Show first question
     showQuestion(0);
-}
+  }
 
 // Show Question
-function showQuestion(index) {
+  function showQuestion(index) {
     const question = currentQuiz.questions[index];
     const container = document.getElementById('questionContainer');
     
@@ -382,10 +384,10 @@ function showQuestion(index) {
         const radio = document.querySelector(`input[value="${userAnswers[index]}"]`);
         if (radio) radio.checked = true;
     }
-}
+  }
 
 // Select Answer
-function selectAnswer(optionIndex) {
+  function selectAnswer(optionIndex) {
     const question = currentQuiz.questions[currentQuestionIndex];
     const feedbackContainer = document.getElementById(`feedback-${currentQuestionIndex}`);
     
@@ -407,25 +409,25 @@ function selectAnswer(optionIndex) {
             </div>
         </div>
     `;
-}
+  }
 
 // Navigation
-function nextQuestion() {
+  function nextQuestion() {
     if (currentQuestionIndex < currentQuiz.questions.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
     }
-}
+  }
 
-function previousQuestion() {
+  function previousQuestion() {
     if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
         showQuestion(currentQuestionIndex);
     }
-}
+  }
 
 // Timer
-function startTimer(seconds) {
+  function startTimer(seconds) {
     let timeLeft = seconds;
     
     updateTimerDisplay(timeLeft);
@@ -439,17 +441,17 @@ function startTimer(seconds) {
             submitQuiz();
         }
     }, 1000);
-}
+  }
 
-function updateTimerDisplay(seconds) {
+  function updateTimerDisplay(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     document.getElementById('timer').textContent = 
         `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
+  }
 
 // Submit Quiz
-async function submitQuiz() {
+  async function submitQuiz() {
     clearInterval(timerInterval);
     
     // Calculate score
@@ -476,10 +478,10 @@ async function submitQuiz() {
     
     // Show result
     showResult(score, correctCount, currentQuiz.questions.length - correctCount, timeSpent);
-}
+  }
 
 // Show Result
-function showResult(score, correct, wrong, timeSpent) {
+  function showResult(score, correct, wrong, timeSpent) {
     document.getElementById('quizContainer').style.display = 'none';
     document.getElementById('quizResult').style.display = 'block';
     
@@ -510,10 +512,10 @@ function showResult(score, correct, wrong, timeSpent) {
         resultTitle.textContent = 'Tetap Semangat!';
         resultMessage.innerHTML = '<p>Jangan menyerah! Coba belajar lagi dan ulangi kuis ini. 💪</p>';
     }
-}
+  }
 
 // Review Answers
-function reviewAnswers() {
+  function reviewAnswers() {
     document.getElementById('quizResult').style.display = 'none';
     document.getElementById('reviewContainer').style.display = 'block';
     
@@ -536,15 +538,15 @@ function reviewAnswers() {
             </div>
         `;
     }).join('');
-}
+  }
 
 // Back to Quiz List
-function backToQuizList() {
+  function backToQuizList() {
     location.reload();
-}
+  }
 
 // Load Best Scores on page load
-async function loadBestScores() {
+  async function loadBestScores() {
     const userId = getCurrentUserId();
     if (!userId) return;
     
@@ -571,15 +573,22 @@ async function loadBestScores() {
     } catch (error) {
         console.error('Error loading best scores:', error);
     }
-}
+  }
 
 // Initialize on page load
-if (window.location.pathname.includes('kuis.html')) {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadBestScores();
-        }
+  if (window.location.pathname.includes('kuis.html')) {
+    requireAuth(() => {
+      loadBestScores();
     });
-}
+  }
 
-console.log('Kuis module loaded! 🎯');
+  // Export functions for inline handlers
+  window.startQuiz = startQuiz;
+  window.nextQuestion = nextQuestion;
+  window.previousQuestion = previousQuestion;
+  window.submitQuiz = submitQuiz;
+  window.reviewAnswers = reviewAnswers;
+  window.backToQuizList = backToQuizList;
+
+  console.log('Kuis module loaded! 🎯');
+})();
