@@ -316,9 +316,14 @@ let timerInterval = null;
 
 // Start Quiz
 function startQuiz(quizId) {
+    if (!quizId) {
+        showError('ID kuis tidak valid!');
+        return;
+    }
+    
     currentQuiz = quizDatabase[quizId];
-    if (!currentQuiz) {
-        alert('Kuis belum tersedia!');
+    if (!currentQuiz || !currentQuiz.questions || currentQuiz.questions.length === 0) {
+        showError('Kuis belum tersedia atau data kuis tidak valid!');
         return;
     }
     
@@ -442,10 +447,7 @@ function startTimer(seconds) {
 }
 
 function updateTimerDisplay(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    document.getElementById('timer').textContent = 
-        `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    document.getElementById('timer').textContent = formatTime(seconds);
 }
 
 // Submit Quiz
@@ -488,9 +490,7 @@ function showResult(score, correct, wrong, timeSpent) {
     document.getElementById('correctCount').textContent = correct;
     document.getElementById('wrongCount').textContent = wrong;
     
-    const minutes = Math.floor(timeSpent / 60);
-    const seconds = timeSpent % 60;
-    document.getElementById('timeSpent').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('timeSpent').textContent = formatTime(timeSpent);
     
     // Result message based on score
     const resultIcon = document.getElementById('resultIcon');
@@ -582,4 +582,4 @@ if (window.location.pathname.includes('kuis.html')) {
     });
 }
 
-console.log('Kuis module loaded! 🎯');
+// Kuis module initialized

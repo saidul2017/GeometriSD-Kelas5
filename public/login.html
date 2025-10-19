@@ -109,16 +109,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/constants.js"></script>
     <script src="js/firebase-config.js"></script>
     
     <!-- Auth Script -->
     <script>
-        console.log('Login page loaded! 🚀');
 
         // Check if user already logged in
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log('User already logged in, checking role...');
                 checkUserRole(user.uid);
             }
         });
@@ -132,10 +132,21 @@
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const email = document.getElementById('email').value;
+                const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
                 
-                console.log('Attempting login for:', email);
+                // Validate inputs
+                if (!email || !password) {
+                    errorMsg.textContent = '❌ Email dan password harus diisi!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    errorMsg.textContent = '❌ Format email tidak valid!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
                 
                 // Show loading state
                 submitBtn.textContent = '⏳ Memproses...';
@@ -147,29 +158,19 @@
                     const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
                     const user = userCredential.user;
                     
-                    console.log('✅ Login successful! UID:', user.uid);
-                    
                     // Check user role from database
-                    const snapshot = await firebase.database().ref('users/' + user.uid).once('value');
-                    const userData = snapshot.val();
-                    
-                    console.log('User data from database:', userData);
+                    const userData = await getUserData(user.uid);
                     
                     if (userData && userData.role) {
-                        console.log('User role:', userData.role);
-                        
                         // Redirect based on role
                         if (userData.role === 'siswa') {
-                            console.log('Redirecting to siswa dashboard...');
                             window.location.href = 'dashboard-siswa.html';
                         } else if (userData.role === 'guru') {
-                            console.log('Redirecting to guru dashboard...');
                             window.location.href = 'dashboard-guru.html';
                         } else {
                             throw new Error('Role tidak valid');
                         }
                     } else {
-                        console.error('❌ User data not found in database!');
                         throw new Error('Data user tidak ditemukan di database');
                     }
                     
@@ -186,8 +187,7 @@
         // Helper function to check user role
         async function checkUserRole(uid) {
             try {
-                const snapshot = await firebase.database().ref('users/' + uid).once('value');
-                const userData = snapshot.val();
+                const userData = await getUserData(uid);
                 
                 if (userData && userData.role) {
                     if (userData.role === 'siswa') {
@@ -197,7 +197,7 @@
                     }
                 }
             } catch (error) {
-                console.error('Error checking role:', error);
+                console.error('Error checking user role:', error);
             }
         }
 
@@ -218,8 +218,6 @@
             
             return '❌ Login gagal! ' + message;
         }
-
-        console.log('Login script initialized! ✅');
     </script>
 </body>
 </html>

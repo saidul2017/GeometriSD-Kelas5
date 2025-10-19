@@ -1,7 +1,5 @@
 // Loader.js - Beautiful Loading Animation
 
-console.log('Loader.js loaded! ⏳');
-
 // Create loader HTML
 function createLoader() {
     const loaderHTML = `

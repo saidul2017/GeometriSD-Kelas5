@@ -140,13 +140,13 @@ function loadQuizHistory(quizResults) {
     
     container.innerHTML = quizArray.map(quiz => {
         const date = new Date(quiz.timestamp);
-        const scoreClass = quiz.score >= 80 ? 'excellent' : quiz.score >= 60 ? 'good' : 'needs-improvement';
+        const scoreClass = getScoreClassification(quiz.score);
         
         return `
             <div class="quiz-history-item">
                 <div class="quiz-info">
                     <h4>${quiz.quizId ? quiz.quizId.charAt(0).toUpperCase() + quiz.quizId.slice(1) : 'Quiz'}</h4>
-                    <p class="quiz-date">${date.toLocaleDateString('id-ID', { 
+                    <p class="quiz-date">${formatDate(date, { 
                         day: 'numeric', 
                         month: 'long', 
                         year: 'numeric',
@@ -154,7 +154,7 @@ function loadQuizHistory(quizResults) {
                         minute: '2-digit'
                     })}</p>
                 </div>
-                <div class="quiz-score ${scoreClass}">
+                <div class="quiz-score ${scoreClass.class}">
                     <span class="score-number">${quiz.score}</span>
                     <span class="score-label">/ 100</span>
                 </div>
@@ -377,4 +377,4 @@ if (window.location.pathname.includes('dashboard-siswa.html')) {
     });
 }
 
-console.log('Progress module loaded! 📊');
+// Progress module initialized

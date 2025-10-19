@@ -29,7 +29,13 @@ function getCurrentUserId() {
 
 // Helper function to update progress
 async function updateProgress(userId, materiId, progress) {
-    if (!userId || !materiId) return;
+    if (!userId || !materiId) {
+        throw new Error('User ID and Material ID are required');
+    }
+    
+    if (typeof progress !== 'number' || progress < 0 || progress > 100) {
+        throw new Error('Progress must be a number between 0 and 100');
+    }
     
     try {
         await progressRef.child(userId).child(materiId).set({
@@ -45,7 +51,14 @@ async function updateProgress(userId, materiId, progress) {
 
 // Helper function to save quiz result
 async function saveQuizResult(userId, quizData) {
-    if (!userId || !quizData) return;
+    if (!userId || !quizData) {
+        throw new Error('User ID and quiz data are required');
+    }
+    
+    // Validate quiz data
+    if (typeof quizData.score !== 'number' || quizData.score < 0 || quizData.score > 100) {
+        throw new Error('Invalid quiz score');
+    }
     
     try {
         const quizRef = quizzesRef.child(userId).push();
@@ -68,4 +81,4 @@ window.usersRef = usersRef;
 window.progressRef = progressRef;
 window.quizzesRef = quizzesRef;
 
-console.log('Firebase initialized successfully!');
+// Firebase initialized

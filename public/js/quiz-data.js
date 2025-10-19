@@ -261,4 +261,4 @@ const quizData = {
 
 // Export
 window.quizData = quizData;
-console.log('Quiz data loaded! 🎯', Object.keys(quizData));
+// Quiz data initialized

@@ -1,7 +1,5 @@
 // Navigation.js - Global Navigation Component
 
-console.log('Navigation.js loaded! 🧭');
-
 // Create Navigation HTML
 function createNavigation(currentPage = 'dashboard') {
     const navHTML = `
@@ -78,7 +76,6 @@ function createNavigation(currentPage = 'dashboard') {
 function initNavigation(currentPage = 'dashboard') {
     // Check if navigation already exists
     if (document.querySelector('.main-nav')) {
-        console.log('Navigation already exists');
         return;
     }
 
@@ -90,8 +87,6 @@ function initNavigation(currentPage = 'dashboard') {
     
     // Initialize event listeners
     initNavigationEvents();
-    
-    console.log('Navigation initialized! ✅');
 }
 
 // Initialize navigation events

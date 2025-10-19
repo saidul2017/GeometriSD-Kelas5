@@ -265,4 +265,4 @@ const materiData = {
 
 // Export
 window.materiData = materiData;
-console.log('Materi data loaded! 📚', Object.keys(materiData));
+// Materi data initialized

@@ -99,16 +99,15 @@ function displayStudentTable(students) {
     }
     
     tbody.innerHTML = students.map(student => {
-        const statusClass = student.avgScore >= 80 ? 'excellent' : student.avgScore >= 60 ? 'good' : 'needs-improvement';
-        const statusText = student.avgScore >= 80 ? 'Sangat Baik' : student.avgScore >= 60 ? 'Baik' : 'Perlu Bimbingan';
+        const scoreClass = getScoreClassification(student.avgScore);
         
         return `
             <tr>
                 <td>${student.name || student.email}</td>
                 <td>${student.completedMaterials}/10</td>
                 <td>${student.completedQuizzes}</td>
-                <td><span class="score-badge ${statusClass}">${student.avgScore}</span></td>
-                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td><span class="score-badge ${scoreClass.class}">${student.avgScore}</span></td>
+                <td><span class="status-badge ${scoreClass.class}">${scoreClass.text}</span></td>
                 <td>
                     <button class="btn btn-small btn-primary" onclick="viewStudentDetail('${student.id}')">
                         Detail
@@ -263,29 +262,7 @@ if (searchInput) {
     });
 }
 
-// Helper: Time Ago
-function getTimeAgo(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    
-    const intervals = {
-        tahun: 31536000,
-        bulan: 2592000,
-        minggu: 604800,
-        hari: 86400,
-        jam: 3600,
-        menit: 60,
-        detik: 1
-    };
-    
-    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
-        const interval = Math.floor(seconds / secondsInUnit);
-        if (interval >= 1) {
-            return `${interval} ${unit} yang lalu`;
-        }
-    }
-    
-    return 'Baru saja';
-}
+// Helper function available from utils.js
 
 // Initialize on page load
 if (window.location.pathname.includes('dashboard-guru.html')) {
@@ -296,4 +273,4 @@ if (window.location.pathname.includes('dashboard-guru.html')) {
     });
 }
 
-console.log('Dashboard Guru module loaded! 👩‍🏫');
+// Dashboard Guru module initialized
